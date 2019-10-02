@@ -1,8 +1,15 @@
+#include <iostream>
+#include <fstream>
+#include <cassert>
+#include <string>
+#include <vector>
+#include <cmath>
+#include <iomanip>
+
 #include "CorrectInput.h"
 #include "myFIO.h"
 #include "WorkerClass.h"
-#include "StudentDatabase.h"
-#include <vector>
+#include "WorkerDatabase.h"
 
 /*typedef struct Employee
 {
@@ -12,27 +19,7 @@
 	double salary;					//Оклад
 } emp;*/
 
-
-
-void printEmp(emp someEmp, int i)
-{
-	std::cout << i << ": ";
-	std::cout << someEmp.fio->getName() << '\t';
-	std::cout << someEmp.fio->getSecondName() << '\t';
-	std::cout << someEmp.getDepartment() << '\t';
-	printf_s("%lf\n", someEmp.getSalary());
-	//printf ("%s\t%s\t%d\t%lf", data[i]->name, data[i]->secondName, data[i]->department, data[i]->salary);
-}
-
-void printEmpList(std::vector <emp> data)
-{
-	for (int i = 0; i < data.size(); i++)
-	{
-		printEmp(data[i], i);
-	}
-}
-
-void menu(std::vector <emp> data)
+void menu(wd data, std::string fileName)
 {
 	int action = 0;
 	do
@@ -47,22 +34,22 @@ void menu(std::vector <emp> data)
 			std::cout << "Goose Gogha\n";
 			break;
 		case 0:
-			data.saveData();
+			data.saveData(fileName);
 
-			while (data[0].getCount() != 0)
+			while (data.size() != 0)
 				data.pop_back();
 			return;
 		case 1:
 			data.addEmployees();
 			break;
 		case 2:
-			printEmpList(data);
+			data.printWorkerList();
 			break;
 		case 3:
 		{
 			std::pair <emp, int> swaggyPair = data.searchEmp();
 			if (swaggyPair.second != -1)
-				printEmp(swaggyPair.first, swaggyPair.second);
+				swaggyPair.first.printWorker(swaggyPair.second);
 
 			break;
 		}
@@ -73,16 +60,17 @@ void menu(std::vector <emp> data)
 			data.salarySort();
 			break;
 		case 6:
-			data.saveData();
+			if (data.size() == 0)
+				std::cout << "Database is empty. Nothig will be stored";
+			data.saveData(fileName);
 			break;
 		case 7:
-			while (data[0].getCount() != 0)
+			while (data.size() != 0)
 				data.pop_back();
-
-			data.loadData();
+			data.loadData(fileName);
 			break;
 		case 8:
-			while (data[0].getCount() != 0)
+			while (data.size() != 0)
 				data.pop_back();
 			break;
 		}
@@ -99,6 +87,9 @@ void menu(std::vector <emp> data)
 
 int main()
 {
-	menu(data);
+	std::string fileName = "C:/Users/Лаврентий Гусев/Олег/МИЭТ/Информатика/Goose2_OOP/Goose2.1_OOP/database.txt";
+	wd data;
+	menu(data, fileName);
+
 	return 0;
 }

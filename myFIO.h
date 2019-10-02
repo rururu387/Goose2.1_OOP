@@ -7,14 +7,14 @@ class FIO
 	std::string patronymic;
 
 public:
-	FIO();
+	FIO(int var = 0);
 	FIO(std::string _secondName, std::string _name, std::string _patronymic);
 	FIO(FIO &someFIO);
-	void setSecondName(std::string secondName);
+	void setSecondName(std::string _secondName);
 	std::string getSecondName();
-	void setName(std::string name);
+	void setName(std::string _name);
 	std::string getName();
-	void setPatronymic(std::string patronymic);
+	void setPatronymic(std::string _patronymic);
 	std::string getPatronymic();
 };
 
@@ -28,9 +28,9 @@ std::string FIO::getSecondName()
 	return this->secondName;
 }
 
-void FIO::setName(std::string name)
+void FIO::setName(std::string _name)
 {
-	this->name = name;
+	this->name = _name;
 }
 
 std::string FIO::getName()
@@ -48,18 +48,27 @@ std::string FIO::getPatronymic()
 	return this->patronymic;
 }
 
-FIO::FIO()
+FIO::FIO(int var)
 {
-	std::string _str;
-	std::cout << "Enter second name: ";
-	std::getline(std::cin, _str);
-	secondName = _str;
-	std::cout << "Enter name: ";
-	std::getline(std::cin, _str);
-	name = _str;
-	std::cout << "Enter patronym: ";
-	std::getline(std::cin, _str);
-	patronymic = _str;
+	if (var == 0)
+	{
+		secondName = "";
+		name = "";
+		patronymic = "";
+	}
+	else if (var == 1)
+	{
+		std::string _str;
+		std::cout << "Enter second name: ";
+		std::getline(std::cin, _str);
+		secondName = _str;
+		std::cout << "Enter name: ";
+		std::getline(std::cin, _str);
+		name = _str;
+		std::cout << "Enter patronym: ";
+		std::getline(std::cin, _str);
+		patronymic = _str;
+	}
 }
 
 FIO::FIO(std::string _secondName, std::string _name, std::string _patronymic)

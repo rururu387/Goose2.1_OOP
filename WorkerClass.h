@@ -20,6 +20,7 @@ public:
 	void setDepartment(int _department) { department = _department; }
 	void setSalary(double _salary) { salary = _salary; }
 	int getCount() { return count; }
+	void printWorker(int i);
 }emp;
 int Worker::count = 0;
 
@@ -49,6 +50,14 @@ Worker::Worker(int var)
 	if (var == 0)
 	{
 		FIO* _fio = new FIO();
+		fio = _fio;
+		setDepartment(0);
+		setSalary(0);
+	}
+	else if (var == 1)
+	{
+		std::cout << "Enter the following worker's data, please.\n";
+		FIO* _fio = new FIO(1);
 		fio = _fio;
 		/*std::cout << "Enter name: ";
 		//std::cin.clear();
@@ -80,6 +89,16 @@ Worker::Worker (char* _name, char* _secondName, int _department, double _salary)
 Worker::~Worker()
 {
 	//count--;
+}
+
+void Worker::printWorker(int i)
+{
+	std::cout << i << ": ";
+	std::cout << fio->getName() << '\t';
+	std::cout << fio->getSecondName() << '\t';
+	std::cout << getDepartment() << '\t';
+	std::cout << std::setprecision(5) << getSalary() << "\n";
+	//printf ("%s\t%s\t%d\t%lf", data[i]->name, data[i]->secondName, data[i]->department, data[i]->salary);
 }
 
 //Все навороты - исключительно для выпендрежа. Ну, и для того чтобы что-то доказать самому себе =)

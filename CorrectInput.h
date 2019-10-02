@@ -1,11 +1,4 @@
 #pragma once
-#include <iostream>
-#include <fstream>
-#include <cassert>
-#include <string>
-#include <vector>
-#include <cmath>
-#include <iomanip>
 
 double myCeil(double num)
 {
@@ -104,18 +97,26 @@ int getIntNumber()
 
 int stringToInt(std::string line)
 {
+
 	int num = 0;
-	for (int i = 0; i != line.size(); i++)
+	try
 	{
-		if (isdigit(line[i]))
+		for (int i = 0; i != line.size(); i++)
 		{
-			num = num * 10 + line[i] - '0';
+			if (isdigit(line[i]))
+			{
+				num = num * 10 + line[i] - '0';
+			}
+			else
+			{
+				std::string str = "Not a valid int stroed";
+				throw (str);
+			}
 		}
-		else
-		{
-			std::string str = "Not a valid int stroed";
-			throw (str);
-		}
+	}
+	catch (std::string str)
+	{
+		std::cout << "Exception: data corrupted: " << str;
 	}
 	return num;
 }
@@ -125,29 +126,36 @@ double stringToDouble(std::string line)
 	double whole = 0;
 	double fractional = 0;
 	bool flag = 1;
-	for (int i = 0; i < line.size(); i++)
+	try
 	{
-		if (line[i] != '.')
+		for (int i = 0; i < line.size(); i++)
 		{
-			if (isdigit(line[i]))
+			if (line[i] != '.')
 			{
-				if (flag)
+				if (isdigit(line[i]))
 				{
-					whole = whole * 10 + line[i] - '0';
+					if (flag)
+					{
+						whole = whole * 10 + line[i] - '0';
+					}
+					else
+					{
+						fractional = fractional * 10 + line[i] - '0';
+					}
 				}
 				else
 				{
-					fractional = fractional * 10 + line[i] - '0';
+					std::string str = "Not a valid double stored";
+					throw(str);
 				}
 			}
 			else
-			{
-				std::string str = "Not a valid double stored";
-				throw(str);
-			}
+				flag = 0;
 		}
-		else
-			flag = 0;
+	}
+	catch (std::string str)
+	{
+		std::cout << "Exception: data corrupted: " << str;
 	}
 	double res = whole + fractional / myCeil(fractional);
 	return res;
