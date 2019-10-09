@@ -98,7 +98,7 @@ void menu(wd data, std::string fileName)
 //Bug in loadBin
 int main()
 {
-	std::string fileName = "C:/Users/Лаврентий Гусев/Олег/МИЭТ/Информатика/Goose2_OOP/Goose2.1_OOP/database";
+	std::string fileName = "C:/Users/Олежек/source/repos/Goose1_OOP/Goose1_OOP";
 	wd data;
 	menu(data, fileName);
 

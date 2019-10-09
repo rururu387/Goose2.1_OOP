@@ -166,6 +166,37 @@ void WorkerDatabase::loadData(std::string fileName)
 	}
 }
 
+std::string intToString(int a)
+{
+	std::string str = "";
+	int upA = 1;
+	while (upA < a)
+	{
+		upA *= 10;
+	}
+	upA = upA / 10;
+	while (a > 0)
+	{
+		str += floor (a / upA) + '0';
+		a -= floor(a / upA) * upA;
+		upA /= 10;
+	}
+	return str;
+}
+
+std::string doubleToString(double a)
+{
+	std::string str = "";
+	int whole = floor(a);
+	double fractional = (a - floor(a));
+	while (fractional - floor(fractional) > 0.001)
+	{
+		fractional *= 10;
+	}
+	str += intToString(whole) + "." + intToString(floor (fractional));
+	return str;
+}
+
 void WorkerDatabase::saveDataBin(std::string fileName)
 {
 	std::ofstream out (fileName, std::ios::binary | std::ios::out);
@@ -181,7 +212,10 @@ void WorkerDatabase::saveDataBin(std::string fileName)
 			if (out.is_open())
 			{
 				//fwrite(&(data[i].fio->getSecondName()), sizeof(char), data[i].fio->getSecondName().size(), );
-				out << i << data[i].fio->getSecondName() << " " << data[i].fio->getName() << " " << data[i].fio->getPatronymic() << " " << data[i].getDepartment() << std::setprecision(7) << data[i].getSalary();
+				std::string str1 = intToString(data[i].getDepartment());
+				std::string str2 = doubleToString(data[i].getSalary());
+				//out << i << data[i].fio->getSecondName() << " " << data[i].fio->getName() << " " << data[i].fio->getPatronymic() << " " << data[i].getDepartment() << std::setprecision(7) << data[i].getSalary();
+				out << i << data[i].fio->getSecondName() << " " << data[i].fio->getName() << " " << data[i].fio->getPatronymic() << " " << str1 << " " << str2 << "\n";
 				//data[i].fio->getName() << '\n' << data[i].fio->getSecondName() << "\n" << data[i].fio->getPatronymic() << '\n' << data[i].getDepartment() << '\n' << std::setprecision(7) << data[i].getSalary() << '\n';
 			}
 		}
@@ -210,16 +244,16 @@ void WorkerDatabase::loadDataBin(std::string fileName)
 		//(*data)[0].name = "A";
 		if (in.is_open())
 		{
-			int i, department;
-			std::string name, secondName, patronymic;
-			double salary;
+			int i;
+			std::string name, secondName, patronymic, department, salary;
 			//Department and salary are rubbish. Why?
 			in >> i >> secondName >> name >> patronymic >> department >> salary;
+			std::cout << secondName << name << patronymic << department << salary;
 			someEmp->fio->setSecondName(secondName);
 			someEmp->fio->setName(name);
 			someEmp->fio->setPatronymic(patronymic);
-			someEmp->setDepartment(department);
-			someEmp->setSalary(salary);
+			someEmp->setDepartment(std::stoi (department));
+			someEmp->setSalary(std::stod (salary));
 			/*while (getline(in, line))
 			{
 				int j = line[0] - '0';
