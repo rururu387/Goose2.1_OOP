@@ -5,10 +5,12 @@ typedef class WorkerDatabase
 	std::vector <emp> data;
 
 public:
-	void searchDepartment();
+	friend void searchDepartment(WorkerDatabase _data);
 	void addEmployees();
 	void saveData(std::string fileName);
 	void loadData(std::string fileName);
+	void saveDataBin(std::string fileName);
+	void loadDataBin(std::string fileName);
 	std::pair <emp, int> searchEmp();
 	void myRor(int min, int max);
 	void salarySort();
@@ -41,22 +43,22 @@ emp WorkerDatabase::operator [] (int i)
 	}
 }
 
-void WorkerDatabase::searchDepartment()
+void searchDepartment(WorkerDatabase _data)
 {
 	int dep;
 	std::cout << "Enter the needed department: ";
 	std::cin >> dep;
 	bool flag = 0;
-	for (int i = 0; i < data.size(); i++)
+	for (int i = 0; i < _data.size(); i++)
 	{
-		if (data[i].getDepartment() == dep)
+		if (_data[i].getDepartment() == dep)
 		{
-			data[i].printWorker(i);
+			_data[i].printWorker(i);
 			flag = 1;
 		}
 	}
 	if (flag == 0)
-		std::cout << "No workers from this department known";
+		std::cout << "No workers from this department known\n";
 }
 
 /*emp fillEmp()
@@ -96,9 +98,9 @@ void WorkerDatabase::saveData(std::string fileName)
 	try
 	{
 		out.open(fileName);
-		if (!out.failbit)
+		if (out.goodbit)
 		{
-			std::string str = "Couldn't save data. Unable to open " + fileName;
+			std::string str = "Couldn't save data. Unable to open " + fileName + "\n";
 			throw(str);
 		}
 		for (int i = 0; i < data.size(); i++)
@@ -112,7 +114,7 @@ void WorkerDatabase::saveData(std::string fileName)
 	}
 	catch (std::string str)
 	{
-		std::cout << "Failed to save in file. " << str << ", maybe you forgot to add employees?";
+		std::cout << "Failed to save in file. " << str << ", maybe you forgot to add employees?\n";
 	}
 }
 
@@ -123,9 +125,9 @@ void WorkerDatabase::loadData(std::string fileName)
 	try
 	{
 		in.open(fileName);
-		if (!in.failbit)
+		if (in.goodbit)
 		{
-			std::string str = "Check if a file exists. Unable to open " + fileName;
+			std::string str = "Check if a file exists. Unable to open " + fileName + ". Maybe you saved in the other format?\n";
 			throw(str);
 		}
 		emp* someEmp = new emp(0);
@@ -160,7 +162,68 @@ void WorkerDatabase::loadData(std::string fileName)
 	}
 	catch (std::string str)
 	{
-		std::cout << "Failed to load a file. " << str;
+		std::cout << "Failed to load a file. " << str << "\n";
+	}
+}
+
+void WorkerDatabase::saveDataBin(std::string fileName)
+{
+	std::ofstream out (fileName, std::ios::binary | std::ios::out);
+	try
+	{
+		if (!out.is_open())
+		{
+			std::string str = "Couldn't save data. Unable to open " + fileName;
+			throw(str);
+		}
+		for (int i = 0; i < data.size(); i++)
+		{
+			if (out.is_open())
+			{
+				std::string str1 = std::to_string(data[i].getDepartment());
+				std::string str2 = std::to_string(data[i].getSalary());
+				//out << i << data[i].fio->getSecondName() << " " << data[i].fio->getName() << " " << data[i].fio->getPatronymic() << " " << data[i].getDepartment() << std::setprecision(7) << data[i].getSalary();
+				out << i << data[i].fio->getSecondName() << " " << data[i].fio->getName() << " " << data[i].fio->getPatronymic() << " " << str1 << " " << str2 << "\n";
+			}
+		}
+		out.close();
+	}
+	catch (std::string str)
+	{
+		std::cout << "Failed to save in a binary file. " << str << ", maybe you forgot to add employees?\n";
+	}
+}
+
+void WorkerDatabase::loadDataBin(std::string fileName)
+{
+	std::string line;
+	std::ifstream in;
+	try
+	{
+		in.open(fileName);
+		if (!in.is_open())
+		{
+			std::string str = "File is not opened. Check if it exists. Unable to open " + fileName;
+			throw(str);
+		}
+		emp* someEmp = new emp(0);
+		if (in.is_open())
+		{
+			int i;
+			std::string name, secondName, patronymic, department, salary;
+			in >> i >> secondName >> name >> patronymic >> department >> salary;
+			someEmp->fio->setSecondName(secondName);
+			someEmp->fio->setName(name);
+			someEmp->fio->setPatronymic(patronymic);
+			someEmp->setDepartment(std::stoi(department));
+			someEmp->setSalary(std::stod(salary));
+		}
+		data.push_back(*someEmp);
+		in.close();
+	}
+	catch (std::string str)
+	{
+		std::cout << "Failed to load from a binary file. " << str;
 	}
 }
 
@@ -247,6 +310,8 @@ void WorkerDatabase::salarySort()
 
 void WorkerDatabase::printWorkerList()
 {
+	if (data.size() == 0)
+		std::cout << "No data stored";
 	for (int i = 0; i < data.size(); i++)
 	{
 		data[i].printWorker(i);

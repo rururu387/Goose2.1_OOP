@@ -160,3 +160,34 @@ double stringToDouble(std::string line)
 	double res = whole + fractional / myCeil(fractional);
 	return res;
 }
+
+std::string mySToI(int a)
+{
+	std::string str = "";
+	int upA = 1;
+	while (upA < a)
+	{
+		upA *= 10;
+	}
+	upA = upA / 10;
+	while (a > 0)
+	{
+		str += floor(a / upA) + '0';
+		a -= floor(a / upA) * upA;
+		upA /= 10;
+	}
+	return str;
+}
+
+std::string myDToI(double a)
+{
+	std::string str = "";
+	int whole = floor(a);
+	double fractional = (a - floor(a));
+	while (fractional - floor(fractional) > 0.001)
+	{
+		fractional *= 10;
+	}
+	str += mySToI(whole) + "." + mySToI(floor(fractional));
+	return str;
+}

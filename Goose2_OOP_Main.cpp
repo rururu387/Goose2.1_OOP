@@ -24,7 +24,7 @@ void menu(wd data, std::string fileName)
 	int action = 0;
 	do
 	{
-		std::cout << "Enter needed action. Quit - 0. Add employees - 1. Print emplyee list - 2. Search for an Employee - 3. List of a department employees - 4. Sort in salary order - 5. Save data - 6. Load data - 7. Clear data - 8: ";
+		std::cout << "Enter needed action. Quit - 0. Add employees - 1. Print emplyee list - 2. Search for an Employee - 3. List of a department employees - 4. Sort in salary order - 5. Save data - 6. Load data - 7. Save data in bin file - 8. Load data from bin file - 9. Clear data - 10: ";
 		action = getIntNumber();
 		//std::cin >> action;
 		//std::cin.ignore();
@@ -34,7 +34,7 @@ void menu(wd data, std::string fileName)
 			std::cout << "Goose Gogha\n";
 			break;
 		case 0:
-			data.saveData(fileName);
+			data.saveData(fileName + ".txt");
 
 			while (data.size() != 0)
 				data.pop_back();
@@ -54,7 +54,7 @@ void menu(wd data, std::string fileName)
 			break;
 		}
 		case 4:
-			data.searchDepartment();
+			searchDepartment(data);
 			break;
 		case 5:
 			data.salarySort();
@@ -62,14 +62,24 @@ void menu(wd data, std::string fileName)
 		case 6:
 			if (data.size() == 0)
 				std::cout << "Database is empty. Nothig will be stored";
-			data.saveData(fileName);
+			data.saveData(fileName + ".txt");
 			break;
 		case 7:
 			while (data.size() != 0)
 				data.pop_back();
-			data.loadData(fileName);
+			data.loadData(fileName + ".txt");
 			break;
 		case 8:
+			if (data.size() == 0)
+				std::cout << "Database is empty. Nothig will be stored";
+			data.saveDataBin(fileName + ".bin");
+			break;
+		case 9:
+			while (data.size() != 0)
+				data.pop_back();
+			data.loadDataBin(fileName + ".bin");
+			break;
+		case 10:
 			while (data.size() != 0)
 				data.pop_back();
 			break;
@@ -85,9 +95,10 @@ void menu(wd data, std::string fileName)
 	data[i].fio.setSecondName(someEmp.fio.getSecondName());
 }*/
 
+//Bug in loadBin
 int main()
 {
-	std::string fileName = "C:/Users/Лаврентий Гусев/Олег/МИЭТ/Информатика/Goose2_OOP/Goose2.1_OOP/database.txt";
+	std::string fileName = "C:/Users/Лаврентий Гусев/source/repos/employreeProject/employreeProject";
 	wd data;
 	menu(data, fileName);
 

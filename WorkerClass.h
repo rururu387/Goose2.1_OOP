@@ -96,6 +96,7 @@ void Worker::printWorker(int i)
 	std::cout << i << ": ";
 	std::cout << fio->getName() << '\t';
 	std::cout << fio->getSecondName() << '\t';
+	std::cout << fio->getPatronymic() << '\t';
 	std::cout << getDepartment() << '\t';
 	std::cout << std::setprecision(5) << getSalary() << "\n";
 	//printf ("%s\t%s\t%d\t%lf", data[i]->name, data[i]->secondName, data[i]->department, data[i]->salary);
