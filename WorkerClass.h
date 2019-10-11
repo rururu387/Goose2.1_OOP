@@ -21,8 +21,38 @@ public:
 	void setSalary(double _salary) { salary = _salary; }
 	int getCount() { return count; }
 	void printWorker(int i);
+	Worker operator = (const Worker &rightVal);
+	friend std::istream &operator >> (std::istream &in, Worker&rightVal);
+	bool operator == (Worker someEmp);
 }emp;
 int Worker::count = 0;
+
+inline bool Worker::operator == (Worker someEmp)
+{
+	if (this->fio == someEmp.fio && this->getDepartment() == someEmp.getDepartment() && this->getSalary() == someEmp.getSalary())
+		return 1;
+	return 0;
+}
+
+inline Worker Worker::operator = (const Worker &rightVal)
+{
+	if (this == &rightVal)
+		throw ("You've tryed to write one's data to himself");
+	else
+	{
+		this->department = rightVal.department;
+		this->fio = rightVal.fio->deepCopy(rightVal.fio);
+	}
+}
+
+inline std::istream &operator >> (std::istream &in, Worker &rightVal)
+{
+	int department;
+	double salary;
+	in >> *(rightVal.fio) >> department >> salary;
+	rightVal.setDepartment(department);
+	rightVal.setSalary(salary);
+}
 
 Worker::Worker(const Worker &_someEmp)
 {
@@ -88,7 +118,7 @@ Worker::Worker (char* _name, char* _secondName, int _department, double _salary)
 
 Worker::~Worker()
 {
-	//count--;
+	delete this->fio;
 }
 
 void Worker::printWorker(int i)

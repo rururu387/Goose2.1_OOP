@@ -9,7 +9,7 @@
 #include "CorrectInput.h"
 #include "myFIO.h"
 #include "WorkerClass.h"
-#include "WorkerDatabase.h"
+#include "WorkerDatabaseInteract.h"
 
 /*typedef struct Employee
 {
@@ -98,7 +98,7 @@ void menu(wd data, std::string fileName)
 //Bug in loadBin
 int main()
 {
-	std::string fileName = "C:/Users/Олежек/source/repos/Goose1_OOP/Goose1_OOP";
+	std::string fileName = "C:/Users/Лаврентий Гусев/source/repos/employreeProject/employreeProject";
 	wd data;
 	menu(data, fileName);
 

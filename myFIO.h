@@ -16,7 +16,27 @@ public:
 	std::string getName();
 	void setPatronymic(std::string _patronymic);
 	std::string getPatronymic();
+	FIO* deepCopy(const FIO* sourceFIO);
+	friend std::istream &operator >> (std::istream& in, FIO& someFIO);
+	bool operator == (FIO someFIO);
 };
+
+bool FIO::operator == (FIO someFIO)
+{
+	if (this->getSecondName() == someFIO.getSecondName() && this->getName() == someFIO.getName() && this->getPatronymic() == someFIO.getPatronymic())
+		return 1;
+	return 0;
+}
+
+inline std::istream &operator >> (std::istream& in, FIO& someFIO)
+{
+	in >> someFIO.secondName >> someFIO.name >> someFIO.patronymic;
+}
+
+FIO* FIO::deepCopy(const FIO* sourceFIO)
+{
+	return new FIO(sourceFIO->secondName, sourceFIO->name, sourceFIO->patronymic);
+}
 
 void FIO::setSecondName(std::string _secondName)
 {
