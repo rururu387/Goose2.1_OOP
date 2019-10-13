@@ -2,7 +2,8 @@
 
 class FIO
 {
-	std::string secondName;				//AAAAA!!!
+private:
+	std::string secondName;
 	std::string name;
 	std::string patronymic;
 
@@ -31,6 +32,7 @@ bool FIO::operator == (FIO someFIO)
 inline std::istream &operator >> (std::istream& in, FIO& someFIO)
 {
 	in >> someFIO.secondName >> someFIO.name >> someFIO.patronymic;
+	return in;
 }
 
 FIO* FIO::deepCopy(const FIO* sourceFIO)
@@ -98,7 +100,7 @@ FIO::FIO(std::string _secondName, std::string _name, std::string _patronymic)
 	patronymic = _patronymic;
 }
 
-FIO::FIO(FIO&someFIO)
+FIO::FIO(FIO &someFIO)
 {
 	secondName = someFIO.secondName;
 	name = someFIO.name;

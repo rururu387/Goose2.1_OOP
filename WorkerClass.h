@@ -11,38 +11,41 @@ typedef class Worker
 	//friend void searchDepartment(std::vector <emp> data);
 public:
 	FIO* fio;
-	Worker(char* _name, char* _secondName, int _department, double _salary);
+	Worker(std::string _secondName, std::string _name, std::string _patronymic, int _department, double _salary);
 	Worker(int var = 0);
 	Worker(const Worker &_someEmp);
-	~Worker();
+	//~Worker();
 	int getDepartment() const { return department; }
 	double getSalary() const { return salary; }
 	void setDepartment(int _department) { department = _department; }
 	void setSalary(double _salary) { salary = _salary; }
 	int getCount() { return count; }
 	void printWorker(int i);
-	Worker operator = (const Worker &rightVal);
-	friend std::istream &operator >> (std::istream &in, Worker&rightVal);
-	bool operator == (Worker someEmp);
+	Worker& operator = (const Worker &rightVal);
+	friend std::istream &operator >> (std::istream &in, Worker &rightVal);
+	bool operator == (FIO someFIO);
 }emp;
 int Worker::count = 0;
 
-inline bool Worker::operator == (Worker someEmp)
+inline bool Worker::operator == (FIO someFIO)
 {
-	if (this->fio == someEmp.fio && this->getDepartment() == someEmp.getDepartment() && this->getSalary() == someEmp.getSalary())
+	if (*(this->fio) == someFIO)
 		return 1;
 	return 0;
 }
 
-inline Worker Worker::operator = (const Worker &rightVal)
+Worker& Worker::operator = (const Worker &rightVal)
 {
 	if (this == &rightVal)
 		throw ("You've tryed to write one's data to himself");
 	else
 	{
 		this->department = rightVal.department;
+		this->salary = rightVal.salary;
+		delete this->fio;
 		this->fio = rightVal.fio->deepCopy(rightVal.fio);
 	}
+	return *this;
 }
 
 inline std::istream &operator >> (std::istream &in, Worker &rightVal)
@@ -107,19 +110,19 @@ Worker::Worker(int var)
 	}
 }
 
-Worker::Worker (char* _name, char* _secondName, int _department, double _salary)
+Worker::Worker (std::string _secondName, std::string _name, std::string _patronymic, int _department, double _salary)
 {
-	this->fio->setName(_name);
-	this->fio->setSecondName(_secondName);
+	FIO* _fio = new FIO(_secondName, _name, _patronymic);
+	fio = _fio;
 	department = _department;
 	salary = _salary;
 	//count++;
 }
 
-Worker::~Worker()
+/*Worker::~Worker()
 {
 	delete this->fio;
-}
+}*/
 
 void Worker::printWorker(int i)
 {

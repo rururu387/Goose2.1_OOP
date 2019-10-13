@@ -21,7 +21,47 @@
 
 void menu(wd data, std::string fileName)
 {
-	int action = 0;
+	FIO someFIO;
+	int department;
+	double salary;
+	std::cin >> someFIO >> department >> salary;
+	++data;
+	++data;
+	++data;
+	for (int i = 0; i < data.size(); i++)
+	{
+		if (data[i] == someFIO)
+			std::cout << "!!!111!!!\n";
+	}
+	data.push_back(someFIO, department, salary);
+	++data;
+	for (int i = 0; i < data.size(); i++)
+	{
+		if (data[i] == someFIO)
+			std::cout << "!!!222!!!\n";
+	}
+	
+	wd data2;
+	std::cin >> department;
+	for (int i = 0; i < data.size(); i++)
+	{
+		if (data[i].getDepartment() == department)
+		{
+			try
+			{
+				Worker someWorker;
+				someWorker = data[i];
+				data2.push_back(someWorker);
+			}
+			catch (std::string str)
+			{}
+		}
+	}
+	data2.printWorkerList();
+	data2.saveDataBin(fileName + ".txt");
+	data.DDB();
+	data2.DDB();
+	/*int action = 0;
 	do
 	{
 		std::cout << "Enter needed action. Quit - 0. Add employees - 1. Print emplyee list - 2. Search for an Employee - 3. List of a department employees - 4. Sort in salary order - 5. Save data - 6. Load data - 7. Save data in bin file - 8. Load data from bin file - 9. Clear data - 10: ";
@@ -84,7 +124,7 @@ void menu(wd data, std::string fileName)
 				data.pop_back();
 			break;
 		}
-	} while (action != 0);
+	} while (action != 0);*/
 }
 
 /*void equivEmp(emp* data, int i, emp someEmp)
@@ -98,7 +138,7 @@ void menu(wd data, std::string fileName)
 //Bug in loadBin
 int main()
 {
-	std::string fileName = "C:/Users/Лаврентий Гусев/source/repos/employreeProject/employreeProject";
+	std::string fileName = "C:/Users/Лаврентий Гусев/source/repos/employreeProject/employeeProject";
 	wd data;
 	menu(data, fileName);
 

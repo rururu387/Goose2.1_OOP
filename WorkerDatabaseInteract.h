@@ -18,7 +18,43 @@ public:
 	void printWorkerList();
 	void pop_back();
 	int size();
+	friend WorkerDatabaseInteract operator ++(WorkerDatabaseInteract &someDB);
+	void operator += (Worker someWorker);
+	void push_back(FIO fio, int department, double salary);
+	void push_back(Worker someWorker);
+	void DDB();
 }wd;
+
+void WorkerDatabaseInteract::DDB()
+{
+	for (int i = 0; i < this->size(); i++)
+	{
+		delete data[i].fio;
+	}
+	data.clear();
+}
+
+void WorkerDatabaseInteract::push_back(Worker someWorker)
+{
+	this->data.push_back(someWorker);
+}
+
+void WorkerDatabaseInteract::push_back(FIO fio, int department, double salary)
+{
+	this->data.push_back(*(new Worker (fio.getSecondName(), fio.getName(), fio.getPatronymic(), department, salary)));
+}
+
+void WorkerDatabaseInteract::operator +=(Worker someWorker)
+{
+	this->data.push_back(someWorker);
+}
+
+
+WorkerDatabaseInteract operator ++(WorkerDatabaseInteract &someDB)
+{
+	someDB.data.push_back(*(new emp()));
+	return someDB;
+}
 
 int WorkerDatabaseInteract::size()
 {
