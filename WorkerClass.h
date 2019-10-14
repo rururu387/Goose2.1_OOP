@@ -1,30 +1,50 @@
 #pragma once
 
-typedef class Worker
+typedef class Worker1 : public baseWorker
 {
-	//void initialize();
+	int department;
+public:
+	Worker1(std::string _secondName, std::string _name, std::string _patronymic, int _department, double _salary);
+	Worker1(int var = 0);
+	Worker1(const Worker1 &_someEmp);
+	const int getDepartment() { return department; }
+	void setDepartment(int _department) { department = _department; }
+	void printWorker(int i);
+private:
+	Worker1& operator = (const Worker1 &rightVal);
+	friend std::istream &operator >> (std::istream &in, Worker1 &rightVal);
+	~Worker1();
+}emp;
+
+Worker1::~Worker1()
+{
+	delete fio;
+}
+
+Worker1& Worker1::operator = (const Worker1 &rightVal)
+{
+	if (this == &rightVal)
+		throw ("You've tryed to write one's data to himself");
+	else
+	{
+		this->department = rightVal.getDepartment();
+		this->salary = rightVal.getSalary();
+		delete this->fio;
+		this->fio->deepCopy(&(rightVal.getConstFIO()));
+	}
+	return *this;
+}
+
+inline std::istream &operator >> (std::istream &in, Worker1 &rightVal)
+{
 	int department;
 	double salary;
-	static int count;
-	//std::pair <emp, int> searchEmp (std::vector <emp> data);
-	//void salarySort(std::vector <emp>* data);
-	//friend void searchDepartment(std::vector <emp> data);
-public:
-	FIO* fio;
-	Worker(char* _name, char* _secondName, int _department, double _salary);
-	Worker(int var = 0);
-	Worker(const Worker &_someEmp);
-	~Worker();
-	int getDepartment() const { return department; }
-	double getSalary() const { return salary; }
-	void setDepartment(int _department) { department = _department; }
-	void setSalary(double _salary) { salary = _salary; }
-	int getCount() { return count; }
-	void printWorker(int i);
-}emp;
-int Worker::count = 0;
+	in >> *(rightVal.fio) >> department >> salary;
+	rightVal.setDepartment(department);
+	rightVal.setSalary(salary);
+}
 
-Worker::Worker(const Worker &_someEmp)
+Worker1::Worker1(const Worker1 &_someEmp)
 {
 	/*this->fio->setName(_someEmp.fio->getName());
 	this->fio->setSecondName(_someEmp.fio->getSecondName());*/
@@ -44,7 +64,7 @@ Worker::Worker(const Worker &_someEmp)
 	salary = 0;
 }*/
 
-Worker::Worker(int var)
+Worker1::Worker1(int var)
 {
 	//initialize();
 	if (var == 0)
@@ -77,21 +97,21 @@ Worker::Worker(int var)
 	}
 }
 
-Worker::Worker (char* _name, char* _secondName, int _department, double _salary)
+Worker1::Worker1 (std::string _secondName, std::string _name, std::string _patronymic, int _department, double _salary)
 {
-	this->fio->setName(_name);
-	this->fio->setSecondName(_secondName);
+	FIO* _fio = new FIO(_secondName, _name, _patronymic);
+	fio = _fio;
 	department = _department;
 	salary = _salary;
 	//count++;
 }
 
-Worker::~Worker()
+/*Worker::~Worker()
 {
-	//count--;
-}
+	delete this->fio;
+}*/
 
-void Worker::printWorker(int i)
+void Worker1::printWorker(int i)
 {
 	std::cout << i << ": ";
 	std::cout << fio->getName() << '\t';

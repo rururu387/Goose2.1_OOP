@@ -8,8 +8,10 @@
 
 #include "CorrectInput.h"
 #include "myFIO.h"
+#include "baseWorker.h"
 #include "WorkerClass.h"
-#include "WorkerDatabase.h"
+#include "WorkerClass2.h"
+#include "WorkerDatabaseInteract.h"
 
 /*typedef struct Employee
 {
@@ -21,6 +23,46 @@
 
 void menu(wd data, std::string fileName)
 {
+	/*FIO someFIO;
+	int department;
+	double salary;
+	std::cin >> someFIO >> department >> salary;
+	++data;
+	++data;
+	++data;
+	for (int i = 0; i < data.size(); i++)
+	{
+		if (data[i] == someFIO)
+			std::cout << "!!!111!!!\n";
+	}
+	data.push_back(someFIO, department, salary);
+	++data;
+	for (int i = 0; i < data.size(); i++)
+	{
+		if (data[i] == someFIO)
+			std::cout << "!!!222!!!\n";
+	}
+	
+	wd data2;
+	std::cin >> department;
+	for (int i = 0; i < data.size(); i++)
+	{
+		if (data[i].getDepartment() == department)
+		{
+			try
+			{
+				Worker1 someWorker;
+				someWorker = (Worker1)data[i];
+				data2.push_back(someWorker);
+			}
+			catch (std::string str)
+			{}
+		}
+	}
+	data2.printWorkerList();
+	data2.saveDataBin(fileName + ".txt");
+	data.DDB();
+	data2.DDB();
 	int action = 0;
 	do
 	{
@@ -84,7 +126,9 @@ void menu(wd data, std::string fileName)
 				data.pop_back();
 			break;
 		}
-	} while (action != 0);
+	} while (action != 0);*/
+	char a;
+	std::cin >> a;
 }
 
 /*void equivEmp(emp* data, int i, emp someEmp)
@@ -98,7 +142,7 @@ void menu(wd data, std::string fileName)
 //Bug in loadBin
 int main()
 {
-	std::string fileName = "C:/Users/Лаврентий Гусев/source/repos/employreeProject/employreeProject";
+	std::string fileName = "H:\Goose3_OOP/employeeProject";
 	wd data;
 	menu(data, fileName);
 
