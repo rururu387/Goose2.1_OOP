@@ -3,15 +3,15 @@
 typedef class WorkerDatabaseInteract
 {
 	std::vector <std::pair <void*, int>> data;
-
+	int getMaxSizeType();
 public:
 	friend void searchDepartment(WorkerDatabaseInteract _data);
 	void addEmployees();
-	void saveData(std::string fileName);
+	void saveData(std::string fileName, bool isBinary = 0);
 	void loadData(std::string fileName);
-	void saveDataBin(std::string fileName);
-	void loadDataBin(std::string fileName);
-	std::pair <base, int> searchEmp();
+	//void saveDataBin(std::string fileName);
+	//void loadDataBin(std::string fileName);
+	std::pair <void*, int> searchEmp();
 	void myRor(int min, int max);
 	void salarySort();
 	std::pair <void*, int> operator [] (int i);
@@ -123,28 +123,60 @@ void WorkerDatabaseInteract::addEmployees()
 
 	for (int i = 0; i < amount; i++)
 	{
-		emp* someEmp = new emp(1);
-		data.push_back(*someEmp);
+		int type;
+		std::cout << "Insert a type of employee storaged info (1 - department, 2 - profession): ";
+		type = getIntNumber();
+		void* someEmp;
+		switch (type)
+		{
+		case 1:
+			someEmp = (void*) new emp(1);
+			break;
+		case 2:
+			someEmp = (void*) new emp2(1);
+			break;
+		default:
+			std::string str = "No description of such type here";
+			throw (str);
+			break;
+		}
+		data.push_back(std::pair <void*, int>(someEmp, type));
 	}
 }
 
-void WorkerDatabaseInteract::saveData(std::string fileName)
+void WorkerDatabaseInteract::saveData(std::string fileName, bool isBinary)
 {
 	std::ofstream out;
+	if (isBinary)
+		out = std::ofstream (fileName, std::ios::binary | std::ios::out);
+	else
+		out = std::ofstream (fileName, std::ios::out);
 	try
 	{
 		out.open(fileName);
-		if (out.goodbit)
+		if (out.is_open())
+		{
+			for (int i = 0; i < data.size(); i++)
+			{
+				switch (data[i].second)
+				{
+				case 1:
+					((Worker1*)data[i].first)->empToFile(out, i);
+					break;
+				case 2:
+					((Worker2*)data[i].first)->empToFile(out, i);
+					break;
+				default:
+					std::string str = "No description of such type here";
+					throw (str);
+					break;
+				}
+			}
+		}
+		else
 		{
 			std::string str = "Couldn't save data. Unable to open " + fileName + "\n";
 			throw(str);
-		}
-		for (int i = 0; i < data.size(); i++)
-		{
-			if (out.is_open())
-			{
-				out << i << '\n' << data[i].getFIO()->getSecondName() << '\n' << data[i].getFIO()->getName() << "\n" << data[i].getFIO->getPatronymic() << '\n' << data[i].getDepartment() << '\n' << std::setprecision(7) << data[i].getSalary() << '\n';
-			}
 		}
 		out.close();
 	}
@@ -152,6 +184,22 @@ void WorkerDatabaseInteract::saveData(std::string fileName)
 	{
 		std::cout << "Failed to save in file. " << str << ", maybe you forgot to add employees?\n";
 	}
+}
+
+int WorkerDatabaseInteract::getMaxSizeType()
+{
+	int sizeArray[] = {sizeof(Worker1), sizeof(Worker2)};
+	int maxSize = 0;
+	int maxSizeType = 0;
+	for (int i = 0; i < 2; i++)
+	{
+		if (maxSize < sizeArray[i])
+		{
+			maxSize = sizeArray[i];
+			maxSizeType = i;
+		}
+	}
+	return maxSizeType;
 }
 
 void WorkerDatabaseInteract::loadData(std::string fileName)
@@ -167,33 +215,52 @@ void WorkerDatabaseInteract::loadData(std::string fileName)
 			throw(str);
 		}
 		emp* someEmp = new emp(0);
-		data.push_back(*someEmp);
-		//(*data)[0].name = "A";
+		void* someWorker = someEmp;
 		if (in.is_open())
 		{
 			while (getline(in, line))
 			{
-				int j = line[0] - '0';
+				int j = std::stoi(line);
+				getline(in, line);
+				int type = std::stoi(line);
 				if (j >= data.size())
 				{
 					for (int i = data.size(); i <= j; i++)
 					{
-						data.push_back(*someEmp);
+						data.push_back(std::pair <void*, int>(someEmp, 1));
 					}
 				}
-				getline(in, line);
-				data[j].getFIO()->setName(line);
-				getline(in, line);
-				data[j].getFIO()->setSecondName(line);
-				getline(in, line); 
-				data[j].getFIO()->setPatronymic(line);
-				getline(in, line);
-				data[j].setDepartment(stringToInt(line));
-				getline(in, line);
-				data[j].setSalary(stringToDouble(line));
+				int maxSizeType = getMaxSizeType();
+				switch (maxSizeType)
+				{
+				case 1:
+					someWorker = (void*)new Worker1();
+					break;
+				case 2:
+					someWorker = (void*)new Worker1();
+					break;
+				default:
+					std::string str = "No description of such type here";
+					throw (str);
+					break;
+				}
+				switch (type)
+				{
+				case 1:
+					((Worker1*)someWorker)->fileToEmp(in);
+					break;
+				case 2:
+					((Worker2*)someWorker)->fileToEmp(in);
+					break;		
+				default:
+						std::string str = "No description of such type here";
+						throw (str);
+						break;
+				}
+				data[j].first = someWorker;
+				data[j].second = type;
 			}
 		}
-		//delete someEmp;
 		in.close();
 	}
 	catch (std::string str)
@@ -202,7 +269,7 @@ void WorkerDatabaseInteract::loadData(std::string fileName)
 	}
 }
 
-void WorkerDatabaseInteract::saveDataBin(std::string fileName)
+/*void WorkerDatabaseInteract::saveDataBin(std::string fileName)
 {
 	std::ofstream out (fileName, std::ios::binary | std::ios::out);
 	try
@@ -212,14 +279,20 @@ void WorkerDatabaseInteract::saveDataBin(std::string fileName)
 			std::string str = "Couldn't save data. Unable to open " + fileName;
 			throw(str);
 		}
-		for (int i = 0; i < data.size(); i++)
+
+		if (out.is_open())
 		{
-			if (out.is_open())
+			for (int i = 0; i < data.size(); i++)
 			{
-				std::string str1 = std::to_string(data[i].getDepartment());
-				std::string str2 = std::to_string(data[i].getSalary());
-				//out << i << data[i].fio->getSecondName() << " " << data[i].fio->getName() << " " << data[i].fio->getPatronymic() << " " << data[i].getDepartment() << std::setprecision(7) << data[i].getSalary();
-				out << i << data[i].getFIO()->getSecondName() << " " << data[i].getFIO()->getName() << " " << data[i].getFIO()->getPatronymic() << " " << str1 << " " << str2 << "\n";
+				switch (data[i].second)
+				{
+				case 1:
+					((Worker1*)data[i].first)->empToFile(out, i);
+					break;
+				case 2:
+					((Worker2*)data[i].first)->empToFile(out, i);
+					break;
+				}
 			}
 		}
 		out.close();
@@ -245,6 +318,10 @@ void WorkerDatabaseInteract::loadDataBin(std::string fileName)
 		emp* someEmp = new emp(0);
 		if (in.is_open())
 		{
+			while (getline(in, line))
+			{
+
+			}
 			int i;
 			std::string name, secondName, patronymic, department, salary;
 			in >> i >> secondName >> name >> patronymic >> department >> salary;
@@ -261,32 +338,32 @@ void WorkerDatabaseInteract::loadDataBin(std::string fileName)
 	{
 		std::cout << "Failed to load from a binary file. " << str;
 	}
-}
+}*/
 
-std::pair <base, int> WorkerDatabaseInteract::searchEmp()
+std::pair <void*, int> WorkerDatabaseInteract::searchEmp()
 {
 	std::string searchedSecondName;
 	std::cout << "Print an employee's second name: ";
 	std::cin.ignore();
 	std::getline(std::cin, searchedSecondName);
 	int i = 0;
-	for (std::vector <base> ::iterator it = data.begin(); it < data.end(); it++)
+	for (std::vector <std::pair<void*, int>> ::iterator it = data.begin(); it < data.end(); it++)
 	{
-		if (it->getFIO()->getSecondName().compare(searchedSecondName) == 0)
+		if((it->second == 1 && ((Worker1*)it->first)->getFIO()->getSecondName().compare(searchedSecondName) == 0) || (it->second == 2 && ((Worker2*)it->first)->getFIO()->getSecondName().compare(searchedSecondName) == 0))
 		{
-			std::pair <base, int> swaggyPair(*it, i);
+			std::pair <void*, int> swaggyPair(it->first, it->second);
 			return swaggyPair;
 		}
 		i++;
 	}
 	std::cout << "No such employee\n";
-	std::pair <base, int> swaggyPair(*data.begin(), -1);
+	std::pair <void*, int> swaggyPair(data.begin()->first, -1);
 	return swaggyPair;
 }
 
 void WorkerDatabaseInteract::myRor(int min, int max)
 {
-	base t = data[max];
+	std::pair <void*, int> t = data[max];
 	for (int i = max; i > min; i--)
 		data[i] = data[i - 1];
 	data[min] = t;
@@ -310,9 +387,39 @@ void WorkerDatabaseInteract::salarySort()
 	for (int i = 1; i < len; i++)
 	{
 		int max = i - 1, min = 0;
+
+		double salary1 = 0;
+		double salary2 = 0;
+		switch (data[(max + min) / 2].second == 1)
+		{
+		case 1:
+			salary1 = ((Worker1*)data[(max + min) / 2].first)->getSalary();
+			break;
+		case 2:
+			salary1 = ((Worker2*)data[(max + min) / 2].first)->getSalary();
+			break;
+		default:
+			std::string str = "No description of such type here";
+			throw (str);
+			break;
+		}
+		switch (data[i].second == 1)
+		{
+		case 1:
+			salary2 = ((Worker1*)data[i].first)->getSalary();
+			break;
+		case 2:
+			salary2 = ((Worker2*)data[i].first)->getSalary();
+			break;
+		default:
+			std::string str = "No description of such type here";
+			throw (str);
+			break;
+		}
+
 		while (max != min)
 		{
-			if (data[(max + min) / 2].getSalary() <= data[i].getSalary())
+			if (salary1 <= salary2)
 				if ((max - min) % 2 == 0)
 					max -= (max - min) / 2;
 				else
@@ -323,23 +430,8 @@ void WorkerDatabaseInteract::salarySort()
 				else
 					min += (max - min) / 2 + 1;
 		}
-		if (data[i].getSalary() >= data[max].getSalary())
+		if (salary1 >= salary2)
 			myRor(max, i);
-		/*while ((*data)[i].salary > (*data)[(max + min) / 2].salary || (*data)[i].salary < (*data)[(max + min) / 2 + 1].salary)
-		{
-			if (max + min / 2 == 0)
-				break;
-			if ((*data)[i].salary > (*data)[(max + min) / 2].salary)
-				if ((max - min) % 2 == 0)
-					max -= (max - min) / 2;
-				else
-					max -= (max - min) / 2 + 1;
-			else
-				if (max - min % 2 == 0)
-					min += (max - min) / 2;
-				else
-					min += (max - min) / 2 + 1;
-		}*/
 	}
 	std::cout << "Data was sorted\n";
 }
@@ -350,6 +442,18 @@ void WorkerDatabaseInteract::printWorkerList()
 		std::cout << "No data stored";
 	for (int i = 0; i < data.size(); i++)
 	{
-		data[i].printWorker(i);
+		switch (data[i].second)
+		{
+		case 1:
+			((Worker1*)data[i].first)->printWorker(i);
+			break;
+		case 2:
+			((Worker2*)data[i].first)->printWorker(i);
+			break;
+		default:
+			std::string str = "No description of such type here";
+			throw (str);
+			break;
+		}
 	}
 }

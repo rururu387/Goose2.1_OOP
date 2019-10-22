@@ -23,6 +23,7 @@
 
 void menu(wd data, std::string fileName)
 {
+	//std::cout << "Hello, world!";
 	/*FIO someFIO;
 	int department;
 	double salary;
@@ -62,7 +63,7 @@ void menu(wd data, std::string fileName)
 	data2.printWorkerList();
 	data2.saveDataBin(fileName + ".txt");
 	data.DDB();
-	data2.DDB();
+	data2.DDB();*/
 	int action = 0;
 	do
 	{
@@ -89,10 +90,20 @@ void menu(wd data, std::string fileName)
 			break;
 		case 3:
 		{
-			std::pair <emp, int> swaggyPair = data.searchEmp();
-			if (swaggyPair.second != -1)
-				swaggyPair.first.printWorker(swaggyPair.second);
-
+			std::pair <void*, int> swaggyPair = data.searchEmp();
+			switch (swaggyPair.second)
+			{
+			case 1:
+				((Worker1*)swaggyPair.first)->printWorker(swaggyPair.second);
+				break;
+			case 2:
+				((Worker2*)swaggyPair.first)->printWorker(swaggyPair.second);
+				break;
+			default:
+				std::string str = "No description of such type here";
+				throw (str);
+				break;
+			}
 			break;
 		}
 		case 4:
@@ -114,19 +125,19 @@ void menu(wd data, std::string fileName)
 		case 8:
 			if (data.size() == 0)
 				std::cout << "Database is empty. Nothig will be stored";
-			data.saveDataBin(fileName + ".bin");
+			data.saveData(fileName + ".bin", 1);
 			break;
 		case 9:
 			while (data.size() != 0)
 				data.pop_back();
-			data.loadDataBin(fileName + ".bin");
+			data.loadData(fileName + ".bin");
 			break;
 		case 10:
 			while (data.size() != 0)
 				data.pop_back();
 			break;
 		}
-	} while (action != 0);*/
+	} while (action != 0);
 	char a;
 	std::cin >> a;
 }
@@ -142,7 +153,7 @@ void menu(wd data, std::string fileName)
 //Bug in loadBin
 int main()
 {
-	std::string fileName = "H:\Goose3_OOP/employeeProject";
+	std::string fileName = "C:/Users/Лаврентий Гусев/Олег/МИЭТ/Информатика/C++ (OOP)/Files/Goose2Data";
 	wd data;
 	menu(data, fileName);
 

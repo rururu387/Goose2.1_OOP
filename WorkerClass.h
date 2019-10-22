@@ -7,12 +7,13 @@ public:
 	Worker1(std::string _secondName, std::string _name, std::string _patronymic, int _department, double _salary);
 	Worker1(int var = 0);
 	Worker1(const Worker1 &_someEmp);
-	const int getDepartment() { return department; }
+	int getDepartment()  const { return department; }
 	void setDepartment(int _department) { department = _department; }
 	void printWorker(int i);
-private:
-	Worker1& operator = (const Worker1 &rightVal);
-	friend std::istream &operator >> (std::istream &in, Worker1 &rightVal);
+	void empToFile(std::ofstream& out, int i);
+	void fileToEmp(std::istream& in);
+	Worker1& operator = (const Worker1& rightVal);
+	friend std::istream& operator >> (std::istream& in, Worker1& rightVal);
 	~Worker1();
 }emp;
 
@@ -35,13 +36,33 @@ Worker1& Worker1::operator = (const Worker1 &rightVal)
 	return *this;
 }
 
+void Worker1::fileToEmp(std::istream& in)
+{
+	std::string line;
+	getline(in, line);
+	getFIO()->setName(line);
+	getline(in, line);
+	getFIO()->setSecondName(line);
+	getline(in, line);
+	getFIO()->setPatronymic(line);
+	getline(in, line);
+	setSalary(stringToDouble(line));
+	getline(in, line);
+	setDepartment(stringToInt(line));
+}
+
+void Worker1::empToFile(std::ofstream& out, int i)
+{
+	out << i << "\n" << "1" << '\n' << getFIO()->getSecondName() << '\n' << getFIO()->getName() << "\n" << getFIO()->getPatronymic() << '\n' << std::setprecision(7) << getSalary() << '\n' << getDepartment() << '\n';
+}
+
 inline std::istream &operator >> (std::istream &in, Worker1 &rightVal)
 {
 	int department;
 	double salary;
-	in >> *(rightVal.fio) >> department >> salary;
-	rightVal.setDepartment(department);
+	in >> *(rightVal.fio) >> salary >> department;
 	rightVal.setSalary(salary);
+	rightVal.setDepartment(department);
 }
 
 Worker1::Worker1(const Worker1 &_someEmp)
@@ -53,47 +74,26 @@ Worker1::Worker1(const Worker1 &_someEmp)
 	this->fio = someFIO;
 	this->setDepartment(_someEmp.getDepartment());
 	this->setSalary(_someEmp.getSalary());
-	//count++;			Это как понимать? count сам изменяется при вызове конструкторов и деструкторов
 }
-
-/*void Worker::initialize()
-{
-	name = "";
-	fam = "";
-	department = 0;
-	salary = 0;
-}*/
 
 Worker1::Worker1(int var)
 {
-	//initialize();
 	if (var == 0)
 	{
 		FIO* _fio = new FIO();
 		fio = _fio;
-		setDepartment(0);
-		setSalary(0);
+		setDepartment(1);
+		setSalary(0.1);
 	}
 	else if (var == 1)
 	{
 		std::cout << "Enter the following worker's data, please.\n";
 		FIO* _fio = new FIO(1);
 		fio = _fio;
-		/*std::cout << "Enter name: ";
-		//std::cin.clear();
-		std::string _str;
-		std::getline(std::cin, _str);
-		fio->setName(_str);
-		//setName(_str);
-		std::cout << "Enter secondName: ";
-		std::getline(std::cin, _str);
-		fio->setSecondName(_str);*/
-		//setFam(_str);
-		std::cout << "Enter department: ";
-		setDepartment(getIntNumber());
 		std::cout << "Enter salary: ";
 		setSalary(getDoubleNumber());
-		//count++;
+		std::cout << "Enter department: ";
+		setDepartment(getIntNumber());
 	}
 }
 

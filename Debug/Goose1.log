@@ -1,0 +1,21 @@
+﻿  Goose2_OOP_Main.cpp
+C:\Users\Лаврентий Гусев\source\repos\Goose1\Goose1\CorrectInput.h(30,21): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\Лаврентий Гусев\source\repos\Goose1\Goose1\CorrectInput.h(82,21): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\Лаврентий Гусев\source\repos\Goose1\Goose1\CorrectInput.h(131,21): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\Лаврентий Гусев\source\repos\Goose1\Goose1\CorrectInput.h(175,25): warning C4244: аргумент: преобразование "double" в "_Elem", возможна потеря данных
+C:\Users\Лаврентий Гусев\source\repos\Goose1\Goose1\CorrectInput.h(175,25): warning C4244:         with
+C:\Users\Лаврентий Гусев\source\repos\Goose1\Goose1\CorrectInput.h(175,25): warning C4244:         [
+C:\Users\Лаврентий Гусев\source\repos\Goose1\Goose1\CorrectInput.h(175,25): warning C4244:             _Elem=char
+C:\Users\Лаврентий Гусев\source\repos\Goose1\Goose1\CorrectInput.h(175,25): warning C4244:         ]
+C:\Users\Лаврентий Гусев\source\repos\Goose1\Goose1\CorrectInput.h(176,28): warning C4244: -=: преобразование "double" в "int", возможна потеря данных
+C:\Users\Лаврентий Гусев\source\repos\Goose1\Goose1\CorrectInput.h(185,12): warning C4244: инициализация: преобразование "double" в "int", возможна потеря данных
+C:\Users\Лаврентий Гусев\source\repos\Goose1\Goose1\CorrectInput.h(191,43): warning C4244: аргумент: преобразование "double" в "int", возможна потеря данных
+C:\Users\Лаврентий Гусев\source\repos\Goose1\Goose1\WorkerDatabaseInteract.h(71,18): warning C4018: <=: несоответствие типов со знаком и без знака
+C:\Users\Лаврентий Гусев\source\repos\Goose1\Goose1\WorkerDatabaseInteract.h(159,22): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\Лаврентий Гусев\source\repos\Goose1\Goose1\WorkerDatabaseInteract.h(226,11): warning C4018: >=: несоответствие типов со знаком и без знака
+C:\Users\Лаврентий Гусев\source\repos\Goose1\Goose1\WorkerDatabaseInteract.h(394,3): warning C4145: ==: использование выражения с оператором отношения в качестве выражения для выбора вариантов; возможное смешение с "="
+C:\Users\Лаврентий Гусев\source\repos\Goose1\Goose1\WorkerDatabaseInteract.h(407,3): warning C4145: ==: использование выражения с оператором отношения в качестве выражения для выбора вариантов; возможное смешение с "="
+C:\Users\Лаврентий Гусев\source\repos\Goose1\Goose1\WorkerDatabaseInteract.h(398,3): warning C4808: вариант "2" недопустим в операторе switch с условием типа "bool"
+C:\Users\Лаврентий Гусев\source\repos\Goose1\Goose1\WorkerDatabaseInteract.h(411,3): warning C4808: вариант "2" недопустим в операторе switch с условием типа "bool"
+C:\Users\Лаврентий Гусев\source\repos\Goose1\Goose1\WorkerDatabaseInteract.h(443,20): warning C4018: <: несоответствие типов со знаком и без знака
+  Goose1.vcxproj -> C:\Users\Лаврентий Гусев\source\repos\Goose1\Debug\Goose1.exe
