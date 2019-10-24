@@ -100,8 +100,7 @@ void menu(wd data, std::string fileName)
 				((Worker2*)swaggyPair.first)->printWorker(swaggyPair.second);
 				break;
 			default:
-				std::string str = "No description of such type here";
-				throw (str);
+				std::cout << "No data stored about this employee.\n";
 				break;
 			}
 			break;

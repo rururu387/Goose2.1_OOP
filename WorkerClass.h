@@ -11,6 +11,7 @@ public:
 	void setDepartment(int _department) { department = _department; }
 	void printWorker(int i);
 	void empToFile(std::ofstream& out, int i);
+	void empToBinFile(std::ofstream& out, int i);
 	void fileToEmp(std::istream& in);
 	Worker1& operator = (const Worker1& rightVal);
 	friend std::istream& operator >> (std::istream& in, Worker1& rightVal);
@@ -56,6 +57,14 @@ void Worker1::empToFile(std::ofstream& out, int i)
 	out << i << "\n" << "1" << '\n' << getFIO()->getSecondName() << '\n' << getFIO()->getName() << "\n" << getFIO()->getPatronymic() << '\n' << std::setprecision(7) << getSalary() << '\n' << getDepartment() << '\n';
 }
 
+/*void Worker1::empToBinFile(std::ofstream& out, int i)
+{
+	char temp[11];
+	itoa(i, temp, 10);
+	out.write(temp, sizeof(temp));
+	out.write();
+}*/
+
 inline std::istream &operator >> (std::istream &in, Worker1 &rightVal)
 {
 	int department;
@@ -87,7 +96,6 @@ Worker1::Worker1(int var)
 	}
 	else if (var == 1)
 	{
-		std::cout << "Enter the following worker's data, please.\n";
 		FIO* _fio = new FIO(1);
 		fio = _fio;
 		std::cout << "Enter salary: ";
@@ -117,9 +125,8 @@ void Worker1::printWorker(int i)
 	std::cout << fio->getName() << '\t';
 	std::cout << fio->getSecondName() << '\t';
 	std::cout << fio->getPatronymic() << '\t';
-	std::cout << getDepartment() << '\t';
-	std::cout << std::setprecision(5) << getSalary() << "\n";
-	//printf ("%s\t%s\t%d\t%lf", data[i]->name, data[i]->secondName, data[i]->department, data[i]->salary);
+	std::cout << std::setprecision(5) << getSalary() << "\t";
+	std::cout << getDepartment() << '\n';
 }
 
 //Все навороты - исключительно для выпендрежа. Ну, и для того чтобы что-то доказать самому себе =)

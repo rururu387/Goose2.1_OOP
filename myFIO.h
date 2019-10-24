@@ -81,7 +81,7 @@ FIO::FIO(int var)
 	else if (var == 1)
 	{
 		std::string _str;
-		std::cin.ignore();
+		std::cin.clear();
 		std::cout << "Enter second name: ";
 		std::getline(std::cin, _str);
 		secondName = _str;

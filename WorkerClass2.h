@@ -25,12 +25,13 @@ Worker2::Worker2(int var = 0)
 	}
 	if (var == 1)
 	{
-		std::cout << "Enter worker's data, please: ";
 		FIO* _fio = new FIO(1);
 		fio = _fio;
 		std::cout << "Enter salary: ";
 		salary = getDoubleNumber();
+		std::cout << "Enter profession: ";
 		std::cin >> profession;
+		std::cin.ignore();
 	}
 }
 
@@ -61,5 +62,10 @@ Worker2::~Worker2()
 
 void Worker2::printWorker(int i)
 {
-	std::cout << i << ": " << fio->getSecondName() << fio->getName() << fio->getPatronymic() << profession << salary;
+	std::cout << i << ": ";
+	std::cout << fio->getName() << '\t';
+	std::cout << fio->getSecondName() << '\t';
+	std::cout << fio->getPatronymic() << '\t';
+	std::cout << std::setprecision(5) << getSalary() << "\t";
+	std::cout << getProfession() << "\n";
 }
