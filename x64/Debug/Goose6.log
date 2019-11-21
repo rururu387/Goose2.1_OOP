@@ -1,0 +1,10 @@
+﻿  Goose6Source.cpp
+C:\Users\Лаврентий Гусев\source\repos\Goose6\Goose6\CorrectInput.h(175,25): warning C4244: аргумент: преобразование "double" в "_Elem", возможна потеря данных
+C:\Users\Лаврентий Гусев\source\repos\Goose6\Goose6\CorrectInput.h(175,25): warning C4244:         with
+C:\Users\Лаврентий Гусев\source\repos\Goose6\Goose6\CorrectInput.h(175,25): warning C4244:         [
+C:\Users\Лаврентий Гусев\source\repos\Goose6\Goose6\CorrectInput.h(175,25): warning C4244:             _Elem=char
+C:\Users\Лаврентий Гусев\source\repos\Goose6\Goose6\CorrectInput.h(175,25): warning C4244:         ]
+C:\Users\Лаврентий Гусев\source\repos\Goose6\Goose6\CorrectInput.h(176,28): warning C4244: -=: преобразование "double" в "int", возможна потеря данных
+C:\Users\Лаврентий Гусев\source\repos\Goose6\Goose6\CorrectInput.h(185,12): warning C4244: инициализация: преобразование "double" в "int", возможна потеря данных
+C:\Users\Лаврентий Гусев\source\repos\Goose6\Goose6\CorrectInput.h(191,43): warning C4244: аргумент: преобразование "double" в "int", возможна потеря данных
+  Goose6.vcxproj -> C:\Users\Лаврентий Гусев\source\repos\Goose6\x64\Debug\Goose6.exe
