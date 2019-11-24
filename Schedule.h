@@ -18,10 +18,30 @@ public:
 	void setName(std::string _name) { name = _name; };
 	void setDateSch(DateTime _dateSch);
 	void setDateFact(DateTime _dateFact);
+	//void getConsoleNoname(int tabAm);
 	void getConsole(int tabAm);
 	DateTime* getDateConsole(int tabAm);
 	std::string toString();
+	void toStream(std::ofstream& out);
+	void fromStream(std::ifstream& in);
 };
+
+void Schedule::fromStream(std::ifstream& in)
+{
+	in >> name >> dateFactIsInitialized;
+	dateSch->fromStream(in);
+	dateFact->fromStream(in);
+}
+
+void Schedule::toStream(std::ofstream& out)
+{
+	//std::string str = "";
+	//str += name + '\n' + dateSch->toString() + '\n' + dateFact->toString() + '\n' + std::to_string(dateFactIsInitialized) + '\n';
+	out << name.c_str() << dateFactIsInitialized;
+	dateSch->toStream(out);
+	dateFact->toStream(out);
+	//return str;
+}
 
 void Schedule::initializeDateFact(DateTime* someDate)
 {
@@ -46,15 +66,16 @@ std::string Schedule::toString()
 		str += dateSch->Date::toString();
 	if (this->getDateFact().first)
 	{
-		str += "\tjob was completed at: ";
+		str += "\tJob was completed at: ";
 		if (dateFact->isCorrect())
 			str += dateFact->toString();
 		else
 			str += dateFact->Date::toString();
+		str += '\n';
 	}
 	else
 	{
-		str += "\tIt isn't done yet";
+		str += "\tIsn't done yet\n";
 	}
 	return str;
 }
@@ -78,42 +99,22 @@ DateTime* Schedule::getDateConsole(int tabAm)
 		temp = getIntNumber();
 	} while (temp <= 0 || temp >= 3);
 	bool flag = 0;
-	DateTime* newDate = nullptr;
-	do
+	DateTime* newDate = new DateTime(1, 1, 1);
+	switch (temp)
 	{
-		//std::cout << str + "\t\tEnter scheduled date\n";
-		int _year, _month, _day, _hour, _minute, _second;
-		std::cout << str + "\t\tEnter year: ";
-		std::cin >> _year;
-		std::cout << str + "\t\tEnter month: ";
-		std::cin >> _month;
-		std::cout << str + "\t\tEnter day: ";
-		std::cin >> _day;
-		std::cin.ignore();
-		try
-		{
-			switch (temp)
-			{
-				case 1:
-					newDate = new DateTime(_year, _month, _day);
-					break;
-				case 2:
-					std::cout << str + "\t\tEnter hour: ";
-					std::cin >> _hour;
-					std::cout << str + "\t\tEnter minute: ";
-					std::cin >> _minute;
-					std::cout << str + "\t\tEnter second: ";
-					std::cin >> _second;
-					newDate = new DateTime(_year, _month, _day, _hour, _minute, _second);
-					break;
-			}
-		}
-		catch (std::string exStr)
-		{
-			std::cout << str + "\t\t" + exStr + "Please retry\n";
-			flag = 1;
-		}
-	} while (flag);
+	case 1:
+	{
+		newDate->Date::getConsole();
+		dateFactIsInitialized = 0;
+		break;
+	}
+	case 2:
+	{
+		newDate->getConsole();
+		dateFactIsInitialized = true;
+		break;
+	}
+	}
 	return newDate;
 }
 
@@ -121,8 +122,9 @@ void Schedule::getConsole(int tabAm)
 {
 	std::string str = tabInsert(tabAm);
 	std::cout << str + "Enter it's name: ";
-	std::cin >> name;
-	std::cin.ignore();
+	//std::cin >> name;
+	std::getline(std::cin, name);
+	//std::cin.ignore();
 	std::cout << str + "Enter scheduled date to this task to be completed\n";
 	delete dateSch;
 	dateSch = getDateConsole(tabAm);
@@ -137,6 +139,28 @@ void Schedule::getConsole(int tabAm)
 		dateFactIsInitialized = true;
 	}
 }
+
+/*void Schedule::getConsoleNoname(int tabAm)
+{
+	std::string str = tabInsert(tabAm);
+	std::cout << str + "Enter it's name: ";
+	//std::cin >> name;
+	std::getline(std::cin, name);
+	//std::cin.ignore();
+	std::cout << str + "Enter scheduled date to this task to be completed\n";
+	delete dateSch;
+	dateSch = getDateConsole(tabAm);
+	std::cout << tabInsert(tabAm) + "Has it been done yet? Yes/No: ";
+	std::string temp;
+	std::cin >> temp;
+	std::cin.ignore();
+	if (temp.compare("Yes") == 0 || temp.compare("yes") == 0 || temp.compare("Y") == 0)
+	{
+		std::cout << tabInsert(tabAm) + "Enter when the job was done\n";
+		dateFact = getDateConsole(tabAm);
+		dateFactIsInitialized = true;
+	}
+}*/
 
 void Schedule::setDateSch(DateTime _dateSch)
 {

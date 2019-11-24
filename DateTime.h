@@ -1,5 +1,8 @@
 #pragma once
 
+#define minYear -10000
+#define maxYear 10000
+
 class Date
 {
 protected:
@@ -18,7 +21,54 @@ public:
 	void setMonth(int _month);
 	void setDay(int _day);
 	std::string toString();
+	void fromStream(std::ifstream& in);
+	void toStream(std::ofstream& out);
+	void getConsole();
 };
+
+void Date::getConsole()
+{
+	do
+	{
+		std::cout << "Year: ";
+		year = getIntNumber();
+		if (year > maxYear || year < minYear)
+			std::cout << "Year must be a number between" + std::to_string(minYear) + " and " + std::to_string(maxYear) + " (borders included)\n";
+	} while (year > maxYear || year < minYear);
+	do
+	{
+		std::cout << "Month (number): ";
+		month = getIntNumber();
+		if (month < 1 || month > 12)
+			std::cout << "Month must be a number between 1 and 12 (borders included)\n";
+	} while (month < 1 || month > 12);
+	do
+	{
+		std::cout << "Day: ";
+		day = getIntNumber();
+		if (!isCorrect(year, month, day))
+		{
+			if (year != 0 || month != 0 || day != 0)
+				std::cout << "You have entred an incorrect day. Remember: amount of days depends on a month\n";
+			else
+			{
+				std::cout << "There is no date 0.0.0. Retry:\n";
+				getConsole();
+				return;
+			}
+		}
+	} while (!isCorrect(year, month, day));
+}
+
+void Date::fromStream(std::ifstream& in)
+{
+	in >> year >> month >> day;
+}
+
+void Date::toStream(std::ofstream& out)
+{
+	out << year << month << day;
+}
 
 std::string Date::toString()
 {
@@ -34,7 +84,7 @@ bool Date::isCorrect(int _year, int _month, int _day)
 {
 	if (_year > 10000 || _year < -10000)
 	{
-		throw ("Date is unvalid: Year exceeds -10000...10000 interval.");
+		throw ("Date is unvalid: Year exceeds" + std::to_string(minYear) + " ... " + std::to_string(maxYear) + " interval.");
 	}
 	if (_month > 12 || _month < 1)
 	{
@@ -152,8 +202,49 @@ public:
 	void setHour(int _hour);
 	void setMinute(int _hour);
 	void setSecond(int _hour);
+	void getConsole();
 	std::string toString();
+	void toStream(std::ofstream& out);
+	void fromStream(std::ifstream& in);
 };
+
+void DateTime::getConsole()
+{
+	Date::getConsole();
+	do
+	{
+		std::cout << "Hour: ";
+		hour = getIntNumber();
+		if (hour > 23 || hour < 0)
+			std::cout << "Year must be a number between 0 and 23 (borders included)\n";
+	} while (hour > 23 || hour < 0);
+	do
+	{
+		std::cout << "Minute: ";
+		minute = getIntNumber();
+		if (minute > 59 || minute < 0)
+			std::cout << "Minute must be a number between 0 and 59 (borders included)\n";
+	} while (minute > 59 || minute < 0);
+	do
+	{
+		std::cout << "Second: ";
+		second = getIntNumber();
+		if (second > 59 || second < 0)
+			std::cout << "Second must be a number between 0 and 59 (borders included)\n";
+	} while (second > 59 || second < 0);
+	if (!isCorrectTime(year, month, day, hour, minute, second))
+		throw ("DateTime invalid. Something has crashed=(");
+}
+
+void DateTime::fromStream(std::ifstream& in)
+{
+	in >> year >> month >> day >> hour >> minute >> second;
+}
+
+void DateTime::toStream(std::ofstream& out)
+{
+	out << year << month << day << hour << minute << second;
+}
 
 std::string DateTime::toString()
 {
@@ -169,11 +260,11 @@ bool DateTime::isCorrectTime(int _year, int _month, int _day, int _hour, int _mi
 {
 	if (Date::isCorrect(_year, _month, _day))
 	{
-		if (_hour < 25 && _hour > 0)
+		if (_hour < 25 && _hour >= 0)
 		{
-			if (_minute < 60 && _minute > 0)
+			if (_minute < 60 && _minute >= 0)
 			{
-				if (_second < 60 && _second > 0)
+				if (_second < 60 && _second >= 0)
 					return 1;
 			}
 		}

@@ -11,8 +11,35 @@ public:
 	void setString(std::string _name) { name = _name; };
 	Company();
 	~Company();
+	void toStream(std::ofstream& out);
 	std::string toString();
+	void fromStream(std::ifstream& in);
 };
+
+void Company::fromStream(std::ifstream& in)
+{
+	in >> name;
+	while (in.get() == (char)4)
+	{
+		Order* someOrder = new Order();
+		someOrder->fromStream(in);
+		orders.push_back(someOrder);
+	}
+}
+
+void Company::toStream(std::ofstream& out)
+{
+	/*std::string str = "";
+	str += name + "\n";*/
+	out << name.c_str();
+	for (std::vector<Order*>::iterator it = orders.begin(); it != orders.end(); it++)
+	{
+		//str += (*it)->toFile();
+		out << (char)4;
+		(*it)->toStream(out);
+	}
+	//return str;
+}
 
 void Company::addOrder(Order* someOrder)
 {
@@ -43,7 +70,8 @@ Company::~Company()
 void Company::getConsole()
 {
 	std::cout << "Enter company name: ";
-	std::cin >> name;
+	//std::cin >> name;
+	std::getline(std::cin, name);
 	int n;
 	std::cout << "Enter amount of company's orders: ";
 	std::cin >> n;

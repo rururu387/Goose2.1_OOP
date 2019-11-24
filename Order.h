@@ -12,11 +12,29 @@ public:
 	~Order();
 	void getConsole();
 	std::string toString();
+	void toStream(std::ofstream& out);
+	void fromStream(std::ifstream& in);
 };
+
+void Order::fromStream(std::ifstream& in)
+{
+	sched->fromStream(in);
+	task->fromStream(in);
+}
+
+void Order::toStream(std::ofstream& out)
+{
+	/*std::string str = "";
+	str += sched->toFile();
+	str += task->toFile();*/
+	sched->toStream(out);
+	task->toStream(out);
+	//return str;
+}
 
 std::string Order::toString()
 {
-	return "\tCompany's order's status: " + sched->toString() + "\n\tTask: " + task->toString();
+	return "\tCompany's orders: " + sched->toString() + "\tTask: " + task->toString();
 }
 
 /*void Order::setSchedule(Schedule _sched)
