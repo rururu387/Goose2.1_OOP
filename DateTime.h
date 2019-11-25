@@ -238,12 +238,18 @@ void DateTime::getConsole()
 
 void DateTime::fromStream(std::ifstream& in)
 {
-	in >> year >> month >> day >> hour >> minute >> second;
+	year = getIntFromStream(in, (char)5);
+	month = getIntFromStream(in, (char)5);
+	day = getIntFromStream(in, (char)5);
+	hour = getIntFromStream(in, (char)5);
+	minute = getIntFromStream(in, (char)5);
+	second = getIntFromStream(in, (char)5);
+	//in >> year >> month >> day >> hour >> minute >> second;
 }
 
 void DateTime::toStream(std::ofstream& out)
 {
-	out << year << month << day << hour << minute << second;
+	out << year << (char)5 << month << (char)5 << day << (char)5 << hour << (char)5 << minute << (char)5 << second << (char)5;
 }
 
 std::string DateTime::toString()

@@ -18,27 +18,29 @@ public:
 
 void Company::fromStream(std::ifstream& in)
 {
-	in >> name;
-	while (in.get() == (char)4)
+	if (in.get() != (char)4)
+		throw ("Data file is corrupted");
+	name = getStringFromStream(in, (char)4);
+	char a = in.get();
+	while (a == (char)4)
 	{
 		Order* someOrder = new Order();
 		someOrder->fromStream(in);
 		orders.push_back(someOrder);
+		a = in.get();
 	}
+	in.unget();
+	std::cout << a;
 }
 
 void Company::toStream(std::ofstream& out)
 {
-	/*std::string str = "";
-	str += name + "\n";*/
-	out << name.c_str();
+	out << (char)4 << name.c_str() << (char)5;
 	for (std::vector<Order*>::iterator it = orders.begin(); it != orders.end(); it++)
 	{
-		//str += (*it)->toFile();
 		out << (char)4;
 		(*it)->toStream(out);
 	}
-	//return str;
 }
 
 void Company::addOrder(Order* someOrder)

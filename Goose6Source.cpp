@@ -4,13 +4,14 @@
 #include <unordered_map>
 #include <fstream>
 #include "CorrectInput.h"
+#include "StreamIn.h"
 #include "DateTime.h"
 #include "Schedule.h"
 #include "Development.h"
 #include "Order.h"
 #include "Company.h"
 
-void menu(std::unordered_map <std::string, Company*> companyDict)
+void menu(std::unordered_map <std::string, Company*> companyDict, std::string filename)
 {
 	int action = 0;
 	do
@@ -65,7 +66,7 @@ void menu(std::unordered_map <std::string, Company*> companyDict)
 		}
 		case 4:
 		{
-			std::ofstream out("C:/Users/Лаврентий Гусев/Олег/МИЭТ/Информатика/C++ (OOP)/Files/Goose6Data.bin", std::ofstream::binary);
+			std::ofstream out(filename);//, std::ofstream::binary);
 			for (std::unordered_map<std::string, Company*>::iterator it = companyDict.begin(); it != companyDict.end(); it++)
 			{
 				out << (char)4;
@@ -76,11 +77,12 @@ void menu(std::unordered_map <std::string, Company*> companyDict)
 				out.write(&a, sizeof(char));*/
 			}
 			out.close();
+			break;
 		}
 		case 5:
 		{
 			companyDict.clear();
-			std::ifstream in("C:/Users/Лаврентий Гусев/Олег/МИЭТ/Информатика/C++ (OOP)/Files/Goose6Data.bin", std::ifstream::binary);
+			std::ifstream in(filename);//, std::ifstream::binary);
 			while (in.get() == 4)
 			{
 				Company* someComp = new Company();
@@ -125,6 +127,7 @@ void menu(std::unordered_map <std::string, Company*> companyDict)
 int main()
 {
 	std::unordered_map <std::string, Company*> companyDict;
-	menu(companyDict);
+	std::string filename = "H:/Goose6Data.txt";
+	menu(companyDict, filename);
 	return 0;
 }

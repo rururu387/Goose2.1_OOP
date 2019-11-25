@@ -28,7 +28,14 @@ public:
 
 void Schedule::fromStream(std::ifstream& in)
 {
-	in >> name >> dateFactIsInitialized;
+	name = getStringFromStream(in, (char)4);
+	char a = in.get();
+	if (a == '0')
+		dateFactIsInitialized = false;
+	else if (a == '1')
+		dateFactIsInitialized = true;
+	else
+		throw ("Data was corrupted");
 	dateSch->fromStream(in);
 	dateFact->fromStream(in);
 }
@@ -37,7 +44,11 @@ void Schedule::toStream(std::ofstream& out)
 {
 	//std::string str = "";
 	//str += name + '\n' + dateSch->toString() + '\n' + dateFact->toString() + '\n' + std::to_string(dateFactIsInitialized) + '\n';
-	out << name.c_str() << dateFactIsInitialized;
+	out << name.c_str() << (char)5;
+	if (dateFactIsInitialized)
+		out << '1';
+	else
+		out << '0';
 	dateSch->toStream(out);
 	dateFact->toStream(out);
 	//return str;

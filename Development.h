@@ -24,20 +24,22 @@ public:
 
 void Development::fromStream(std::ifstream& in)
 {
-	in >> name >> stageAmount;
+	name = getStringFromStream(in, (char)5);
+	stageAmount = getIntFromStream(in, (char)5);
 	while (in.get() == (char)4)
 	{
 		Schedule* tmpSch = new Schedule();
 		tmpSch->fromStream(in);
 		stageSch.push_back(tmpSch);
 	}
+	in.unget();
 }
 
 void Development::toStream(std::ofstream& out)
 {
 	//std::string str = "";
 	//str += name + '\n' + std::to_string(stageAmount) + '\n';
-	out << name.c_str() << stageAmount;
+	out << name.c_str() << (char)5 << stageAmount << (char)5;
 	for (std::vector<Schedule*>::iterator it = stageSch.begin(); it != stageSch.end(); it++)
 	{
 		//str += (*it)->toStream();
