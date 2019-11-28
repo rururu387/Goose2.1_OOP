@@ -12,17 +12,17 @@ public:
 	~Order();
 	void getConsole();
 	std::string toString();
-	void toStream(std::ofstream& out);
-	void fromStream(std::ifstream& in);
+	void toStream(std::ostream& out);
+	void fromStream(std::istream& in);
 };
 
-void Order::fromStream(std::ifstream& in)
+void Order::fromStream(std::istream& in)
 {
 	sched->fromStream(in);
 	task->fromStream(in);
 }
 
-void Order::toStream(std::ofstream& out)
+void Order::toStream(std::ostream& out)
 {
 	/*std::string str = "";
 	str += sched->toFile();

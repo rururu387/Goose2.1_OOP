@@ -1,6 +1,6 @@
 #pragma once
 
-std::string getStringFromStream(std::ifstream& in, char flag)
+std::string getStringFromStream(std::istream& in, char flag)
 {
 	char a = in.get();
 	std::string str = "";
@@ -20,7 +20,7 @@ int atod(char a)
 	return -1;
 }
 
-int getIntFromStream(std::ifstream& in, char flag)
+int getIntFromStream(std::istream& in, char flag)
 {
 	int num = 0;
 	char a = in.get();

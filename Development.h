@@ -20,8 +20,8 @@ public:
 	Development(std::string _name, int _stageAmount, Schedule* _stageSch[]);
 	~Development();
 	std::string toString();
-	void fromStream(std::ifstream& in);
-	void toStream(std::ofstream& out);
+	void fromStream(std::istream& in);
+	void toStream(std::ostream& out);
 };
 
 std::vector<Schedule*>::iterator Development::findTask(std::string nameToFind)
@@ -97,7 +97,7 @@ void Development::setTaskCompleted(std::string taskName)
 	(*it)->setDateFact(*completionDate);
 }
 
-void Development::fromStream(std::ifstream& in)
+void Development::fromStream(std::istream& in)
 {
 	name = getStringFromStream(in, (char)5);
 	stageAmount = getIntFromStream(in, (char)5);
@@ -110,7 +110,7 @@ void Development::fromStream(std::ifstream& in)
 	in.unget();
 }
 
-void Development::toStream(std::ofstream& out)
+void Development::toStream(std::ostream& out)
 {
 	//std::string str = "";
 	//str += name + '\n' + std::to_string(stageAmount) + '\n';

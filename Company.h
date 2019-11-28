@@ -14,10 +14,31 @@ public:
 	void setString(std::string _name) { name = _name; };
 	Company();
 	~Company();
-	void toStream(std::ofstream& out);
+	void toStream(std::ostream& out);
 	std::string toString();
-	void fromStream(std::ifstream& in);
+	void fromStream(std::istream& in);
+	void operator = (Company* someComp);
+	friend std::ostream& operator <<(std::ostream& out, Company &someComp);
+	friend std::istream& operator >>(std::istream& in, Company &someComp);
 };
+
+void Company::operator = (Company* someComp)
+{
+	name = someComp->name;
+	orders = someComp->orders;
+}
+
+std::ostream& operator << (std::ostream& out, Company &someComp)
+{
+	out << someComp.toString();
+	return out;
+}
+
+std::istream& operator >> (std::istream& in, Company &someComp)
+{
+	someComp.getConsole();
+	return in;
+}
 
 std::vector<Order*>::iterator Company::findOrder(std::string nameToFind)
 {
@@ -105,7 +126,7 @@ void Company::setTaskCompleted(std::string orderName)
 	(*it)->getDevelopment()->setTaskCompleted(taskName);
 }
 
-void Company::fromStream(std::ifstream& in)
+void Company::fromStream(std::istream& in)
 {
 	if (in.get() != (char)4)
 		throw ("Data file is corrupted");
@@ -121,7 +142,7 @@ void Company::fromStream(std::ifstream& in)
 	in.unget();
 }
 
-void Company::toStream(std::ofstream& out)
+void Company::toStream(std::ostream& out)
 {
 	out << (char)4 << name.c_str() << (char)5;
 	for (std::vector<Order*>::iterator it = orders.begin(); it != orders.end(); it++)

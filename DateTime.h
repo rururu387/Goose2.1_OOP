@@ -21,8 +21,8 @@ public:
 	void setMonth(int _month);
 	void setDay(int _day);
 	std::string toString();
-	void fromStream(std::ifstream& in);
-	void toStream(std::ofstream& out);
+	void fromStream(std::istream& in);
+	void toStream(std::ostream& out);
 	void getConsole();
 };
 
@@ -60,12 +60,12 @@ void Date::getConsole()
 	} while (!isCorrect(year, month, day));
 }
 
-void Date::fromStream(std::ifstream& in)
+void Date::fromStream(std::istream& in)
 {
 	in >> year >> month >> day;
 }
 
-void Date::toStream(std::ofstream& out)
+void Date::toStream(std::ostream& out)
 {
 	out << year << month << day;
 }
@@ -208,10 +208,11 @@ public:
 	void setSecond(int _hour);
 	void getConsole();
 	std::string toString();
-	void toStream(std::ofstream& out);
-	void fromStream(std::ifstream& in);
+	void toStream(std::ostream& out);
+	void fromStream(std::istream& in);
 };
 
+//Как запретить вызов функции из наследуемого класса?
 void DateTime::getConsole()
 {
 	Date::getConsole();
@@ -240,7 +241,7 @@ void DateTime::getConsole()
 		throw ("DateTime invalid. Something has crashed=(");
 }
 
-void DateTime::fromStream(std::ifstream& in)
+void DateTime::fromStream(std::istream& in)
 {
 	year = getIntFromStream(in, (char)5);
 	month = getIntFromStream(in, (char)5);
@@ -251,7 +252,7 @@ void DateTime::fromStream(std::ifstream& in)
 	//in >> year >> month >> day >> hour >> minute >> second;
 }
 
-void DateTime::toStream(std::ofstream& out)
+void DateTime::toStream(std::ostream& out)
 {
 	out << year << (char)5 << month << (char)5 << day << (char)5 << hour << (char)5 << minute << (char)5 << second << (char)5;
 }

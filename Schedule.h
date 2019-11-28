@@ -22,11 +22,11 @@ public:
 	void getConsole(int tabAm);
 	//DateTime* getDateConsole(int tabAm);
 	std::string toString();
-	void toStream(std::ofstream& out);
-	void fromStream(std::ifstream& in);
+	void toStream(std::ostream& out);
+	void fromStream(std::istream& in);
 };
 
-void Schedule::fromStream(std::ifstream& in)
+void Schedule::fromStream(std::istream& in)
 {
 	name = getStringFromStream(in, (char)5);
 	char a = in.get();
@@ -40,7 +40,7 @@ void Schedule::fromStream(std::ifstream& in)
 	dateFact->fromStream(in);
 }
 
-void Schedule::toStream(std::ofstream& out)
+void Schedule::toStream(std::ostream& out)
 {
 	//std::string str = "";
 	//str += name + '\n' + dateSch->toString() + '\n' + dateFact->toString() + '\n' + std::to_string(dateFactIsInitialized) + '\n';

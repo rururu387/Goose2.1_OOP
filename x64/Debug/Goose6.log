@@ -9,5 +9,5 @@ C:\Users\Лаврентий Гусев\source\repos\Goose6\Goose6\CorrectInput.h
 C:\Users\Лаврентий Гусев\source\repos\Goose6\Goose6\CorrectInput.h(220,43): warning C4244: аргумент: преобразование "double" в "int", возможна потеря данных
 C:\Users\Лаврентий Гусев\source\repos\Goose6\Goose6\CorrectInput.h(95): warning C4715: getBool: значение возвращается не при всех путях выполнения
 C:\Users\Лаврентий Гусев\source\repos\Goose6\Goose6\Development.h(89): warning C4715: Development::findTask: значение возвращается не при всех путях выполнения
-C:\Users\Лаврентий Гусев\source\repos\Goose6\Goose6\Company.h(84): warning C4715: Company::findOrder: значение возвращается не при всех путях выполнения
+C:\Users\Лаврентий Гусев\source\repos\Goose6\Goose6\Company.h(105): warning C4715: Company::findOrder: значение возвращается не при всех путях выполнения
   Goose6.vcxproj -> C:\Users\Лаврентий Гусев\source\repos\Goose6\x64\Debug\Goose6.exe

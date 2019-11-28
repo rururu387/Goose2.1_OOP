@@ -16,7 +16,7 @@ void menu(std::unordered_map <std::string, Company*> companyDict, std::string fi
 	int action = 0;
 	do
 	{
-		std::cout << "Enter action (0 - quit, 1 - add company, 2 - add order to a company, 3 - set a completion date of an order / task, 4 - print all companies and orders, 5 - save date, 6 - load data): ";
+		std::cout << "Enter action (0 - quit, 1 - add company, 2 - add order to a company, 3 - set a completion date of an order / task, 4 - print all companies and orders, 5 - save date, 6 - load data, 7 - make default companies): ";
 		action = getIntNumber();
 		switch (action)
 		{
@@ -26,7 +26,8 @@ void menu(std::unordered_map <std::string, Company*> companyDict, std::string fi
 			bool flag = 0;
 			do
 			{
-				newComp->getConsole();
+				std::cin >> *newComp;
+				//newComp->getConsole();
 				if (!companyDict.try_emplace(newComp->getName(), newComp).second)
 				{
 					std::cout << "Couldn't add a company. Remember: you can't add two companies with the same name";
@@ -86,11 +87,9 @@ void menu(std::unordered_map <std::string, Company*> companyDict, std::string fi
 
 			std::cout << "Have you finished an order? 0 - No, 1 - Yes: ";
 			bool hasFinished = getBool();
-			//Misteak: it does not set DateTime
 			if (hasFinished)
 			{
 				someComp->second->setOrderCompleted(orderName);
-				//std::cout << someComp->second->toString();
 			}
 			else
 			{
@@ -104,7 +103,7 @@ void menu(std::unordered_map <std::string, Company*> companyDict, std::string fi
 				std::cout << "No data stored";
 			for (auto it = companyDict.begin(); it != companyDict.end(); it++)
 			{
-				std::cout << it->second->toString();
+				std::cout  << *(it->second);
 			}
 			break;
 		}
@@ -129,6 +128,21 @@ void menu(std::unordered_map <std::string, Company*> companyDict, std::string fi
 				someComp->fromStream(in);
 				companyDict.try_emplace(someComp->getName(), someComp);
 			}
+			break;
+		}
+		case 7:
+		{
+			std::unordered_map<std::string, Company*>::iterator it;
+			Company* someComp = new Company(*(companyDict.begin()->second));
+			for (it = companyDict.begin(); it != companyDict.end(); it++)
+			{
+				it->second = someComp;
+			}
+			for (it = companyDict.begin(); it != companyDict.end(); it++)
+			{
+				std::cout << it->first << "\n";
+			}
+			break;
 		}
 		}
 	} while (action != 0);
