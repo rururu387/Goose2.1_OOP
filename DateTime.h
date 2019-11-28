@@ -179,12 +179,13 @@ Date::Date(int _year, int _month, int _day)
 
 Date::Date(Date& someDate)
 {
-	if (someDate.isCorrect())
-	{
+	//----------------Uncomment later----------------
+	//if (someDate.isCorrect())
+	//{
 		year = someDate.getYear();
 		month = someDate.getMonth();
 		day = someDate.getDay();
-	}
+	//}
 }
 
 class DateTime : public Date
@@ -339,9 +340,9 @@ DateTime::DateTime(DateTime& someDateTime) : Date(someDateTime.getYear(), someDa
 {
 	//if (someDateTime.isCorrect())
 	//{----------------------Uncomment later-----------------
-		year = someDateTime.getYear();
-		month = someDateTime.getMonth();
-		day = someDateTime.getDay();
+		//year = someDateTime.getYear();
+		//month = someDateTime.getMonth();
+		//day = someDateTime.getDay();
 		hour = someDateTime.getHour();
 		minute = someDateTime.getMinute();
 		second = someDateTime.getSecond();

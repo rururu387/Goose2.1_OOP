@@ -159,6 +159,7 @@ void Schedule::setDateFact(DateTime _dateFact)
 {
 	delete dateFact;
 	dateFact = new DateTime(_dateFact);
+	dateFactIsInitialized = true;
 }
 
 Schedule::Schedule()

@@ -88,9 +88,14 @@ void menu(std::unordered_map <std::string, Company*> companyDict, std::string fi
 			bool hasFinished = getBool();
 			//Misteak: it does not set DateTime
 			if (hasFinished)
+			{
 				someComp->second->setOrderCompleted(orderName);
+				//std::cout << someComp->second->toString();
+			}
 			else
+			{
 				someComp->second->setTaskCompleted(orderName);
+			}
 			break;
 		}
 		case 4:
@@ -108,7 +113,7 @@ void menu(std::unordered_map <std::string, Company*> companyDict, std::string fi
 			std::ofstream out(filename, std::ofstream::binary);
 			for (std::unordered_map<std::string, Company*>::iterator it = companyDict.begin(); it != companyDict.end(); it++)
 			{
-				out << (char)4;
+				out << (char)6;
 				(*it).second->toStream(out);
 			}
 			out.close();
@@ -118,7 +123,7 @@ void menu(std::unordered_map <std::string, Company*> companyDict, std::string fi
 		{
 			companyDict.clear();
 			std::ifstream in(filename, std::ifstream::binary);
-			while (in.get() == 4)
+			while (in.get() == 6)
 			{
 				Company* someComp = new Company();
 				someComp->fromStream(in);
