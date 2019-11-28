@@ -1,10 +1,13 @@
 ﻿  Goose6Source.cpp
-C:\Users\Лаврентий Гусев\source\repos\Goose6\Goose6\CorrectInput.h(175,25): warning C4244: аргумент: преобразование "double" в "_Elem", возможна потеря данных
-C:\Users\Лаврентий Гусев\source\repos\Goose6\Goose6\CorrectInput.h(175,25): warning C4244:         with
-C:\Users\Лаврентий Гусев\source\repos\Goose6\Goose6\CorrectInput.h(175,25): warning C4244:         [
-C:\Users\Лаврентий Гусев\source\repos\Goose6\Goose6\CorrectInput.h(175,25): warning C4244:             _Elem=char
-C:\Users\Лаврентий Гусев\source\repos\Goose6\Goose6\CorrectInput.h(175,25): warning C4244:         ]
-C:\Users\Лаврентий Гусев\source\repos\Goose6\Goose6\CorrectInput.h(176,28): warning C4244: -=: преобразование "double" в "int", возможна потеря данных
-C:\Users\Лаврентий Гусев\source\repos\Goose6\Goose6\CorrectInput.h(185,12): warning C4244: инициализация: преобразование "double" в "int", возможна потеря данных
-C:\Users\Лаврентий Гусев\source\repos\Goose6\Goose6\CorrectInput.h(191,43): warning C4244: аргумент: преобразование "double" в "int", возможна потеря данных
+C:\Users\Лаврентий Гусев\source\repos\Goose6\Goose6\CorrectInput.h(204,25): warning C4244: аргумент: преобразование "double" в "_Elem", возможна потеря данных
+C:\Users\Лаврентий Гусев\source\repos\Goose6\Goose6\CorrectInput.h(204,25): warning C4244:         with
+C:\Users\Лаврентий Гусев\source\repos\Goose6\Goose6\CorrectInput.h(204,25): warning C4244:         [
+C:\Users\Лаврентий Гусев\source\repos\Goose6\Goose6\CorrectInput.h(204,25): warning C4244:             _Elem=char
+C:\Users\Лаврентий Гусев\source\repos\Goose6\Goose6\CorrectInput.h(204,25): warning C4244:         ]
+C:\Users\Лаврентий Гусев\source\repos\Goose6\Goose6\CorrectInput.h(205,28): warning C4244: -=: преобразование "double" в "int", возможна потеря данных
+C:\Users\Лаврентий Гусев\source\repos\Goose6\Goose6\CorrectInput.h(214,12): warning C4244: инициализация: преобразование "double" в "int", возможна потеря данных
+C:\Users\Лаврентий Гусев\source\repos\Goose6\Goose6\CorrectInput.h(220,43): warning C4244: аргумент: преобразование "double" в "int", возможна потеря данных
+C:\Users\Лаврентий Гусев\source\repos\Goose6\Goose6\CorrectInput.h(95): warning C4715: getBool: значение возвращается не при всех путях выполнения
+C:\Users\Лаврентий Гусев\source\repos\Goose6\Goose6\Development.h(89): warning C4715: Development::findTask: значение возвращается не при всех путях выполнения
+C:\Users\Лаврентий Гусев\source\repos\Goose6\Goose6\Company.h(84): warning C4715: Company::findOrder: значение возвращается не при всех путях выполнения
   Goose6.vcxproj -> C:\Users\Лаврентий Гусев\source\repos\Goose6\x64\Debug\Goose6.exe

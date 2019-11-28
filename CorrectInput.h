@@ -65,6 +65,35 @@ double getDoubleNumber()
 	return whole + (fractional / myCeil(fractional));
 }
 
+bool getBool()
+{
+	int flag = 1;
+	while (flag)
+	{
+		flag = 0;
+		std::string digitStr;
+		std::getline(std::cin, digitStr);
+		if (digitStr.size() == 0)
+		{
+			std::cout << "You didn't enter a bool number. Retry: ";
+			flag = 2;
+		}
+		else if (std::strcmp(digitStr.c_str(), "0") && std::strcmp(digitStr.c_str(), "1"))
+		{
+			std::cout << "Enter 0 or 1. Retry: ";
+			flag = 2;
+		}
+		else if (!std::strcmp(digitStr.c_str(), "0"))
+		{
+			return 0;
+		}
+		else
+		{
+			return 1;
+		}
+	}
+}
+
 int getIntNumber()
 {
 	int flag = 1;

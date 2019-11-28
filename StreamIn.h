@@ -5,7 +5,7 @@ std::string getStringFromStream(std::ifstream& in, char flag)
 	char a = in.get();
 	std::string str = "";
 	str = "";
-	while (a != (char)5)
+	while (a != flag)
 	{
 		str += a;
 		a = in.get();

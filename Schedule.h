@@ -20,7 +20,7 @@ public:
 	void setDateFact(DateTime _dateFact);
 	//void getConsoleNoname(int tabAm);
 	void getConsole(int tabAm);
-	DateTime* getDateConsole(int tabAm);
+	//DateTime* getDateConsole(int tabAm);
 	std::string toString();
 	void toStream(std::ofstream& out);
 	void fromStream(std::ifstream& in);
@@ -28,7 +28,7 @@ public:
 
 void Schedule::fromStream(std::ifstream& in)
 {
-	name = getStringFromStream(in, (char)4);
+	name = getStringFromStream(in, (char)5);
 	char a = in.get();
 	if (a == '0')
 		dateFactIsInitialized = false;
@@ -99,7 +99,7 @@ std::string tabInsert(int a)
 	return str;
 }
 
-DateTime* Schedule::getDateConsole(int tabAm)
+DateTime* getDateConsole(int tabAm)
 {
 	int temp;
 	std::string str = tabInsert(tabAm);
@@ -116,13 +116,11 @@ DateTime* Schedule::getDateConsole(int tabAm)
 	case 1:
 	{
 		newDate->Date::getConsole();
-		dateFactIsInitialized = 0;
 		break;
 	}
 	case 2:
 	{
 		newDate->getConsole();
-		dateFactIsInitialized = true;
 		break;
 	}
 	}
@@ -150,28 +148,6 @@ void Schedule::getConsole(int tabAm)
 		dateFactIsInitialized = true;
 	}
 }
-
-/*void Schedule::getConsoleNoname(int tabAm)
-{
-	std::string str = tabInsert(tabAm);
-	std::cout << str + "Enter it's name: ";
-	//std::cin >> name;
-	std::getline(std::cin, name);
-	//std::cin.ignore();
-	std::cout << str + "Enter scheduled date to this task to be completed\n";
-	delete dateSch;
-	dateSch = getDateConsole(tabAm);
-	std::cout << tabInsert(tabAm) + "Has it been done yet? Yes/No: ";
-	std::string temp;
-	std::cin >> temp;
-	std::cin.ignore();
-	if (temp.compare("Yes") == 0 || temp.compare("yes") == 0 || temp.compare("Y") == 0)
-	{
-		std::cout << tabInsert(tabAm) + "Enter when the job was done\n";
-		dateFact = getDateConsole(tabAm);
-		dateFactIsInitialized = true;
-	}
-}*/
 
 void Schedule::setDateSch(DateTime _dateSch)
 {

@@ -16,7 +16,7 @@ void menu(std::unordered_map <std::string, Company*> companyDict, std::string fi
 	int action = 0;
 	do
 	{
-		std::cout << "Enter action (0 - quit, 1 - add company, 2 - add order to a company, 3 - print all companies and orders, 4 - save date, 5 - load data): ";
+		std::cout << "Enter action (0 - quit, 1 - add company, 2 - add order to a company, 3 - set a completion date of an order / task, 4 - print all companies and orders, 5 - save date, 6 - load data): ";
 		action = getIntNumber();
 		switch (action)
 		{
@@ -37,7 +37,7 @@ void menu(std::unordered_map <std::string, Company*> companyDict, std::string fi
 		}
 		case 2:
 		{
-			bool flag = 0;
+			int flag = 2;
 			std::unordered_map <std::string, Company*>::iterator someComp;
 			do
 			{
@@ -47,10 +47,14 @@ void menu(std::unordered_map <std::string, Company*> companyDict, std::string fi
 				someComp = companyDict.find(name);
 				if (someComp == companyDict.end())
 				{
-					std::cout << "Couldn't find this company. Wrong name. Retry: ";
-					flag = 1;
+					std::cout << "Couldn't find this company. Wrong name. Quit - 0, Retry - default: ";
+					flag = getIntNumber();
+					if (flag != 0)
+						flag = 1;
 				}
-			} while (flag);
+			} while (flag == 1);
+			if (flag == 0)
+				break;
 			Order* newOrder = new Order();
 			newOrder->getConsole();
 			someComp->second->addOrder(newOrder);
@@ -58,67 +62,68 @@ void menu(std::unordered_map <std::string, Company*> companyDict, std::string fi
 		}
 		case 3:
 		{
+			int flag = 2;
+			std::unordered_map <std::string, Company*>::iterator someComp;
+			do
+			{
+				std::cout << "Enter name of a company you work for: ";
+				std::string name;
+				std::getline(std::cin, name);
+				someComp = companyDict.find(name);
+				if (someComp == companyDict.end())
+				{
+					std::cout << "Couldn't find this company. Wrong name. Quit - 0, Retry - default: ";
+					flag = getIntNumber();
+					if (flag != 0)
+						flag = 1;
+				}
+			} while (flag == 1);
+			if (flag == 0)
+				break;
+			std::string orderName;
+			std::cout << "Enter an order name: ";
+			getline(std::cin, orderName);
+
+			std::cout << "Have you finished an order? 0 - No, 1 - Yes: ";
+			bool hasFinished = getBool();
+			//Misteak: it does not set DateTime
+			if (hasFinished)
+				someComp->second->setOrderCompleted(orderName);
+			else
+				someComp->second->setTaskCompleted(orderName);
+			break;
+		}
+		case 4:
+		{
+			if (companyDict.empty())
+				std::cout << "No data stored";
 			for (auto it = companyDict.begin(); it != companyDict.end(); it++)
 			{
 				std::cout << it->second->toString();
 			}
 			break;
 		}
-		case 4:
+		case 5:
 		{
-			std::ofstream out(filename);//, std::ofstream::binary);
+			std::ofstream out(filename, std::ofstream::binary);
 			for (std::unordered_map<std::string, Company*>::iterator it = companyDict.begin(); it != companyDict.end(); it++)
 			{
 				out << (char)4;
 				(*it).second->toStream(out);
-				/*const char* tmpstr = (*it).second->toFile().c_str();
-				out.write(tmpstr, sizeof (tmpstr));
-				char a = 4;
-				out.write(&a, sizeof(char));*/
 			}
 			out.close();
 			break;
 		}
-		case 5:
+		case 6:
 		{
 			companyDict.clear();
-			std::ifstream in(filename);//, std::ifstream::binary);
+			std::ifstream in(filename, std::ifstream::binary);
 			while (in.get() == 4)
 			{
 				Company* someComp = new Company();
 				someComp->fromStream(in);
 				companyDict.try_emplace(someComp->getName(), someComp);
 			}
-			/*char* a;
-			std::string str = "";
-			str.resize(100);
-			do
-			{
-				in.read(a, sizeof(in));
-				str += a;
-			}while (*a != in.eof());
-
-			str.shrink_to_fit();
-			in.close();
-
-			Company* someComp = new Company();
-			int fPos = str.find(4);
-			while (fPos != std::string::npos)
-			{
-				std::string substr = str.substr(0, str.find(4));
-				str.erase(0, str.find(4));
-				someComp->fromFile(substr);
-				companyDict.try_emplace(std::pair<std::string, Company*>(someComp->getName(), someComp));
-				fPos = str.find(4);*/
-			//}
-
-
-			/*for (int i = 0; i < str.size(); i++)
-			{
-				Company* someCmp = new Company();
-				std::string substrtmp = str.;
-					companyDict.try_emplace(std::pair<std::string, Company*>());
-			}*/
 		}
 		}
 	} while (action != 0);
@@ -127,7 +132,7 @@ void menu(std::unordered_map <std::string, Company*> companyDict, std::string fi
 int main()
 {
 	std::unordered_map <std::string, Company*> companyDict;
-	std::string filename = "H:/Goose6Data.txt";
+	std::string filename = "C:/Users/Лаврентий Гусев/source/repos/Goose6/Goose6/Goose6Data.bin";
 	menu(companyDict, filename);
 	return 0;
 }

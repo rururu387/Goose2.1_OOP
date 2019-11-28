@@ -77,6 +77,8 @@ std::string Date::toString()
 
 bool Date::isCorrect()
 {
+	if (!isCorrect(year, month, day))
+		throw ("Date object is incorrect");
 	return isCorrect(year, month, day);
 }
 
@@ -190,10 +192,11 @@ class DateTime : public Date
 	int hour;
 	int minute;
 	int second;
-	bool isCorrectTime(int _year, int _month, int _day, int _hour, int _minute, int _second);
+	bool isCorrect(int _year, int _month, int _day, int _hour, int _minute, int _second);
 public:
 	bool isCorrect();
 	DateTime(int _year, int _month, int _day, int _hour, int _minute, int _second);
+	//-----------------------TO BE DELETED! DANGER-----------------
 	DateTime(int _year, int _month, int _day);
 	DateTime(DateTime& someDateTime);
 	int getHour();
@@ -232,7 +235,7 @@ void DateTime::getConsole()
 		if (second > 59 || second < 0)
 			std::cout << "Second must be a number between 0 and 59 (borders included)\n";
 	} while (second > 59 || second < 0);
-	if (!isCorrectTime(year, month, day, hour, minute, second))
+	if (!DateTime::isCorrect(year, month, day, hour, minute, second))
 		throw ("DateTime invalid. Something has crashed=(");
 }
 
@@ -259,10 +262,14 @@ std::string DateTime::toString()
 
 bool DateTime::isCorrect()
 {
-	return isCorrectTime(year, month, day, hour, minute, second);
+	//---------------------To be uncommented
+	/*if (!DateTime::isCorrect(year, month, day, hour, minute, second))
+		throw ("DateTime object is incorrect");*/
+	
+	return DateTime::isCorrect(year, month, day, hour, minute, second);
 }
 
-bool DateTime::isCorrectTime(int _year, int _month, int _day, int _hour, int _minute, int _second)
+bool DateTime::isCorrect(int _year, int _month, int _day, int _hour, int _minute, int _second)
 {
 	if (Date::isCorrect(_year, _month, _day))
 	{
@@ -280,19 +287,19 @@ bool DateTime::isCorrectTime(int _year, int _month, int _day, int _hour, int _mi
 
 void DateTime::setHour(int _hour)
 {
-	if (isCorrectTime(year, month, day, _hour, minute, second))
+	if (DateTime::isCorrect(year, month, day, _hour, minute, second))
 		hour = _hour;
 }
 
 void DateTime::setMinute(int _minute)
 {
-	if (isCorrectTime(year, month, day, hour, _minute, second))
+	if (DateTime::isCorrect(year, month, day, hour, _minute, second))
 		minute = _minute;
 }
 
 void DateTime::setSecond(int _second)
 {
-	if (isCorrectTime(year, month, day, hour, minute, _second))
+	if (DateTime::isCorrect(year, month, day, hour, minute, _second))
 		second = _second;
 }
 
@@ -320,7 +327,7 @@ DateTime::DateTime(int _year, int _month, int _day) : Date(_year, _month, _day)
 
 DateTime::DateTime(int _year, int _month, int _day, int _hour, int _minute, int _second) : Date(_year, _month, _day)
 {
-	if (isCorrectTime(year, month, day, _hour, _minute, _second))
+	if (DateTime::isCorrect(year, month, day, _hour, _minute, _second))
 	{
 		hour = _hour;
 		minute = _minute;
@@ -330,13 +337,13 @@ DateTime::DateTime(int _year, int _month, int _day, int _hour, int _minute, int 
 
 DateTime::DateTime(DateTime& someDateTime) : Date(someDateTime.getYear(), someDateTime.getMonth(), someDateTime.getDay())
 {
-	if (someDateTime.isCorrect())
-	{
+	//if (someDateTime.isCorrect())
+	//{----------------------Uncomment later-----------------
 		year = someDateTime.getYear();
 		month = someDateTime.getMonth();
 		day = someDateTime.getDay();
 		hour = someDateTime.getHour();
 		minute = someDateTime.getMinute();
 		second = someDateTime.getSecond();
-	}
+	//}
 }

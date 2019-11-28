@@ -3,8 +3,8 @@ class Order
 	Development* task;
 	Schedule* sched;
 public:
-	Development getDevelopment() { return *task; };
-	Schedule getSch() { return *sched; };
+	Development* getDevelopment() { return task; };
+	Schedule* getSch() { return sched; };
 	void setDevelopment(Development _task);
 	//void setSchedule(Schedule _sched);
 	Order(Development* _task, Schedule* _sched);
@@ -34,7 +34,7 @@ void Order::toStream(std::ofstream& out)
 
 std::string Order::toString()
 {
-	return "\tCompany's orders: " + sched->toString() + "\tTask: " + task->toString();
+	return "\tOrder: " + sched->getName() + "\t" + sched->toString() + "\tTask: " + task->toString();
 }
 
 /*void Order::setSchedule(Schedule _sched)
