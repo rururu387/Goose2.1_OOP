@@ -1,4 +1,5 @@
 #pragma once
+#include <cmath>
 
 double myCeil(double num)
 {
@@ -64,6 +65,35 @@ double getDoubleNumber()
 	return whole + (fractional / myCeil(fractional));
 }
 
+bool getBool()
+{
+	int flag = 1;
+	while (flag)
+	{
+		flag = 0;
+		std::string digitStr;
+		std::getline(std::cin, digitStr);
+		if (digitStr.size() == 0)
+		{
+			std::cout << "You didn't enter a bool number. Retry: ";
+			flag = 2;
+		}
+		else if (std::strcmp(digitStr.c_str(), "0") && std::strcmp(digitStr.c_str(), "1"))
+		{
+			std::cout << "Enter 0 or 1. Retry: ";
+			flag = 2;
+		}
+		else if (!std::strcmp(digitStr.c_str(), "0"))
+		{
+			return 0;
+		}
+		else
+		{
+			return 1;
+		}
+	}
+}
+
 int getIntNumber()
 {
 	int flag = 1;
@@ -97,7 +127,6 @@ int getIntNumber()
 
 int stringToInt(std::string line)
 {
-
 	int num = 0;
 	try
 	{
@@ -161,7 +190,7 @@ double stringToDouble(std::string line)
 	return res;
 }
 
-std::string mySToI(int a)
+std::string myIToS(int a)
 {
 	std::string str = "";
 	int upA = 1;
@@ -179,7 +208,7 @@ std::string mySToI(int a)
 	return str;
 }
 
-std::string myDToI(double a)
+std::string myDToS(double a)
 {
 	std::string str = "";
 	int whole = floor(a);
@@ -188,6 +217,6 @@ std::string myDToI(double a)
 	{
 		fractional *= 10;
 	}
-	str += mySToI(whole) + "." + mySToI(floor(fractional));
+	str += myIToS(whole) + "." + myIToS(floor(fractional));
 	return str;
 }
